@@ -35,13 +35,24 @@ class HomeController extends Controller
         if ($user->is_admin == 1)   {
             return view('admin.index',['companies'=>Company::orderBy('is_delete', 'asc')->paginate(config('app.pagination_companies'))]);
         }
-        $userFromDB = DB::table('users')->where('email','=',$user->email)->join('hrworkers','users.id','=','hrworkers.user_id')->get();
+        $userFromDB = DB::table('users')->where('email','=',$user->email)
+                    ->join('hrworkers','users.id','=','hrworkers.user_id')->get();
 
         if ($userFromDB->count() > 0)    {
-            return view('hr.index');
+            if ($userFromDB->count() > 1){
+                $companies = DB::table('companies')
+                            ->select('companies.name as name', 'companies.id as id')
+                            ->join('hrworkers','companies.id','=','hrworkers.company_id')
+                            ->where('hrworkers.user_id','=', $user->id)->get();
+                return view('hr.company', ['companies' => $companies]);
+            }
+            $idCompany = HRworker::where('user_id',$user->id)->first();
+            return redirect()->route('hr.index', ['id' => $idCompany->company_id]);
         }
 
-        $userFromDB = DB::table('users')->where('email','=',$user->email)->join('questionnaires','users.id','=','questionnaires.user_id')->where('questionnaires.updated_at','>', Carbon::now()->subDays(30))->get();
+        $userFromDB = DB::table('users')->where('email','=',$user->email)
+                    ->join('questionnaires','users.id','=','questionnaires.user_id')
+                    ->where('questionnaires.updated_at','>', Carbon::now()->subDays(30))->get();
 
         if ($userFromDB->count() < 1)   {
             $userForWork = User::where('email',$user->email)->first();

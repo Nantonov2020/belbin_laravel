@@ -13,14 +13,17 @@ class AdminCompanyController extends Controller
 {
     public function index()
     {
-        return view('admin.index',['companies'=>Company::orderBy('is_delete', 'asc')->paginate(config('app.pagination_companies'))]);
+        return view('admin.index',['companies'=>Company::orderBy('is_delete', 'asc')
+                                        ->paginate(config('app.pagination_companies'))]);
     }
 
     public function company($id)
     {
         $company = Company::find($id);
         $departments = Department::where('company_id',$id)->get();
-        $hrworkers = DB::table('users')->select('users.id as user_id','firstName', 'secondName','middleName', 'phone')->join('hrworkers','users.id', '=', 'hrworkers.user_id')->where('hrworkers.company_id','=',$id)->get();
+        $hrworkers = DB::table('users')->select('users.id as user_id','firstName', 'secondName','middleName', 'phone')
+                                            ->join('hrworkers','users.id', '=', 'hrworkers.user_id')
+                                            ->where('hrworkers.company_id','=',$id)->get();
         return view('admin.company',['company'=>$company, 'departments'=>$departments,'hrworkers'=>$hrworkers]);
     }
 

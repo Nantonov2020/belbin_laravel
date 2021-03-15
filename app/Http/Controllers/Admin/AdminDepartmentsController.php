@@ -13,7 +13,9 @@ class AdminDepartmentsController extends Controller
 {
     public function departments()
     {
-        $departments = DB::table('companies')->orderBy('companies.id')->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')->join('departments','companies.id', '=', 'departments.company_id')->paginate(config('app.pagination_departments'));
+        $departments = DB::table('companies')->orderBy('companies.id')
+                    ->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')
+                    ->join('departments','companies.id', '=', 'departments.company_id')->paginate(config('app.pagination_departments'));
 
         return view('admin.departments',['departments'=>$departments]);
     }
@@ -21,7 +23,12 @@ class AdminDepartmentsController extends Controller
     {
         $data = $request->only(['name']);
         $name = $data['name'];
-        $departments = DB::table('companies')->orderBy('companies.id')->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')->where('departments.name', 'like', "%$name%")->join('departments','companies.id', '=', 'departments.company_id')->paginate(config('app.pagination_departments'))->appends('name',$name);
+        $departments = DB::table('companies')->orderBy('companies.id')
+                    ->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')
+                    ->where('departments.name', 'like', "%$name%")
+                    ->join('departments','companies.id', '=', 'departments.company_id')
+                    ->paginate(config('app.pagination_departments'))
+                    ->appends('name',$name);
         return view('admin.departments',['departments'=>$departments]);
     }
 
@@ -48,8 +55,12 @@ class AdminDepartmentsController extends Controller
     public function department($id)
     {
         $id = (int)$id;
-        $department = DB::table('departments')->select('departments.is_delete as is_delete','company_id','companies.name as company_name', 'departments.is_delete as is_delete','departments.id as department_id', 'departments.name as name')->where('departments.id','=',$id)->join('companies','departments.company_id','=','companies.id')->limit(1)->get();
-        $workers = DB::table('workers')->join('users','workers.user_id','=','users.id')->where('workers.department_id','=',$id)->get();
+        $department = DB::table('departments')
+            ->select('company_id','companies.name as company_name', 'departments.is_delete as is_delete','departments.id as department_id', 'departments.name as name')
+            ->where('departments.id','=',$id)->join('companies','departments.company_id','=','companies.id')
+            ->limit(1)->get();
+        $workers = DB::table('workers')->join('users','workers.user_id','=','users.id')
+                    ->where('workers.department_id','=',$id)->get();
         return view('admin.department', ['department'=>$department[0],'workers'=>$workers]);
     }
 

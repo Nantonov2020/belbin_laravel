@@ -46,7 +46,11 @@ class AdminHRworkerController extends Controller
 
     public function HRworkers()
     {
-        $HRworkers = DB::table('hrworkers')->select('user_id','company_id','phone','email','companies.name as company_name','firstName','secondName','middleName')->join('users','hrworkers.user_id', '=', 'users.id')->join('companies','hrworkers.company_id', '=', 'companies.id')->paginate(config('app.pagination_users'));
+        $HRworkers = DB::table('hrworkers')
+                    ->select('user_id','company_id','phone','email','companies.name as company_name','firstName','secondName','middleName')
+                    ->join('users','hrworkers.user_id', '=', 'users.id')
+                    ->join('companies','hrworkers.company_id', '=', 'companies.id')
+                    ->paginate(config('app.pagination_users'));
 
         return view('admin.HRworkers',['HRworkers' => $HRworkers]);
 

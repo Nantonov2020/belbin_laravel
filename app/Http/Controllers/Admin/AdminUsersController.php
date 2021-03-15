@@ -66,8 +66,17 @@ class AdminUsersController extends Controller
         $id = (int)$id;
         $user = User::find($id);
         if ($user) {
-            $worker = DB::table('workers')->select('company_id','companies.name as name','is_head', 'is_candidate','departments.name as name_department','departments.id as id_department')->where('workers.user_id',$id)->join('departments','workers.department_id', '=', 'departments.id')->join('companies', 'departments.company_id', '=', 'companies.id')->get();
-            $HRworker = DB::table('hrworkers')->select('company_id','companies.name as name')->where('hrworkers.user_id',$id)->join('companies','hrworkers.company_id', '=', 'companies.id')->get();
+            $worker = DB::table('workers')
+                        ->select('company_id','companies.name as name','is_head', 'is_candidate','departments.name as name_department','departments.id as id_department')
+                        ->where('workers.user_id',$id)
+                        ->join('departments','workers.department_id', '=', 'departments.id')
+                        ->join('companies', 'departments.company_id', '=', 'companies.id')
+                        ->get();
+            $HRworker = DB::table('hrworkers')
+                        ->select('company_id','companies.name as name')
+                        ->where('hrworkers.user_id',$id)
+                        ->join('companies','hrworkers.company_id', '=', 'companies.id')
+                        ->get();
         }else{
             $worker = 0;
             $HRworker = 0;
