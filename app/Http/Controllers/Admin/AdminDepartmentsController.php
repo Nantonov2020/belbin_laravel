@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteCompanyRequest;
+use App\Http\Requests\findDepartmentRequest;
 use App\Models\Company;
 use App\Models\Department;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class AdminDepartmentsController extends Controller
 
         return view('admin.departments',['departments'=>$departments]);
     }
-    public function findDepartment(Request $request)
+    public function findDepartment(findDepartmentRequest $request)
     {
         $data = $request->only(['name']);
         $name = $data['name'];

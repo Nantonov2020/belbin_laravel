@@ -20,17 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6dcc2115-279c-4682-a3b9-b3b4aec42cbd" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/components/HRnav.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/hr/company.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/layouts/hr.blade.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/layouts/hr0.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminCompanyController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminCompanyController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminDepartmentsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminDepartmentsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminHRworkerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminHRworkerController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminUsersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/AdminUsersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/HomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/HR/CompaniesController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/HRnav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/HRnav.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/components/adminnav.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/components/adminnav.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/hr/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/hr/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -238,7 +233,8 @@
       <workItem from="1615559771425" duration="822000" />
       <workItem from="1615621300499" duration="46000" />
       <workItem from="1615720370131" duration="732000" />
-      <workItem from="1615818897825" duration="4430000" />
+      <workItem from="1615818897825" duration="5026000" />
+      <workItem from="1615907407734" duration="5696000" />
     </task>
     <servers />
   </component>
@@ -255,16 +251,17 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="37" y="190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1612797267582">
+    <state x="37" y="190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1615907502139">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="37" y="190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.0.1366.728@0.0.1920.1040" timestamp="1612797267582" />
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615481862191">
+    <state x="37" y="190" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.0.1366.728@0.0.1920.1040" timestamp="1615907502139" />
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1615907593941">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/1920.0.1366.728@0.0.1920.1040" timestamp="1615481862191" />
+    <state x="690" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1920.1040/1920.0.1366.728@0.0.1920.1040" timestamp="1615907593941" />
     <state x="1071" y="223" key="NewPhpClassDialog" timestamp="1609073451515">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

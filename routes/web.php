@@ -7,7 +7,7 @@ use App\Http\Controllers\Admin\AdminHRworkerController;
 use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\Admin\AdminWorkerController;
 use App\Http\Controllers\BelbinController;
-use App\Http\Controllers\HR\CompaniesController;
+use App\Http\Controllers\HR\DepartmentsController;
 use App\Http\Controllers\Resource\CompanyController;
 use App\Http\Controllers\Resource\DepartmentController;
 use App\Http\Controllers\User\UserController;
@@ -76,7 +76,8 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('/home/questionnaire', [BelbinController::class, 'questionnaire'])->name('user.questionnaire');
     Route::post('/home/answer', [BelbinController::class, 'answer'])->name('user.answer');
 
-    Route::get('/hr/company/{id}', [CompaniesController::class, 'index'])->where('id', '[0-9]+')->name('hr.index');
-
+    Route::group(['middleware' => 'HR'],function() {
+        Route::get('/hr/company/{idCompany}', [DepartmentsController::class, 'showDepartments'])->where('idCompany', '[0-9]+')->name('hr.index');
+    });
 
 });
