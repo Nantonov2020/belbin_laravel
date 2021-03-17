@@ -65,4 +65,16 @@ class AdminDepartmentsController extends Controller
         return view('admin.department', ['department'=>$department[0],'workers'=>$workers]);
     }
 
+    public function giveSetDepartments(Request $request) //Ajax
+    {
+        $data = $request->only(['id']);
+        $id = (int)$data['id'];
+        $departments = Department::where('company_id',$id)->get();
+        $results = [];
+        foreach ($departments as $department){
+            $results[$department->id] = $department->name;
+        }
+        return $results;
+    }
+
 }

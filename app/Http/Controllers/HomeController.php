@@ -47,7 +47,8 @@ class HomeController extends Controller
                 return view('hr.company', ['companies' => $companies]);
             }
             $idCompany = HRworker::where('user_id',$user->id)->first();
-            return redirect()->route('hr.index', ['id' => $idCompany->company_id]);
+            //dd($idCompany);
+            return redirect()->route('hr.index', ['idCompany' => $idCompany->company_id]);
         }
 
         $userFromDB = DB::table('users')->where('email','=',$user->email)

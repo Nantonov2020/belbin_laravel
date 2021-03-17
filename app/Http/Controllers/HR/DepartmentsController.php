@@ -16,4 +16,10 @@ class DepartmentsController extends Controller
                                     ->paginate(config('app.pagination_departments'));
         return view('hr.index',['company' => $company, 'departments' => $departments]);
     }
+
+    public function showOneDepartment($idDepartment)
+    {
+        return view('hr.department');
+    }
+
 }
