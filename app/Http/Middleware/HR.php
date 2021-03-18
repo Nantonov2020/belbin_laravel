@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\DB;
 
 class HR
 {
+
+    private $idCompany;
+    private $idDepartment;
+    private $idWorker;
+
     /**
      * Handle an incoming request.
      *
@@ -19,11 +24,11 @@ class HR
      */
     public function handle(Request $request, Closure $next)
     {
-        $idCompany = $request->idCompany;
-        $idDepartment = $request->idDepartment;
-        $idWorker = $request->idWorker;
+        $this->idCompany = $request->idCompany;
+        $this->idDepartment = $request->idDepartment;
+        $this->idWorker = $request->idWorker;
 
-        if (($idCompany == null)and($idDepartment == null)and($idWorker == null))   {
+        if ($this->checkNotAvailabilityValues()){
             return abort(404);
         }
 
@@ -33,39 +38,35 @@ class HR
             return abort(404);
         }
 
-        if ($idWorker != null){
-            $idWorker = (int)$idWorker;
-            $checkNumberHR= DB::table('workers')
-                                ->select('hrworkers.id')
-                                ->join('departments','workers.department_id','=','departments.id')
-                                ->join('companies', 'departments.company_id','=','companies.id')
-                                ->join('hrworkers','companies.id','=','hrworkers.company_id')
-                                ->where('workers.user_id','=',$idWorker)
-                                ->where('hrworkers.user_id','=',$user->id)
-                                ->get();
-            if (count($checkNumberHR) == 0){
-                return abort(404);
-            }else{
+        if ($this->idWorker != null){
+            if ($this->hasHRAccessToWorkerID($user->id)){
                 return $next($request);
             }
+            return abort(404);
         }
 
-        if ($idDepartment != null){
-            $idDepartment = (int)$idDepartment;
-            $idCompany = (Department::find($idDepartment))->company_id;
+        if ($this->idDepartment != null){
+            $this->idDepartment = (int)$this->idDepartment;
+            $this->idCompany = (Department::find($this->idDepartment))->company_id;
         }
 
-        if ($idCompany != null) {
-            $idCompany = (int)$idCompany;
-            $isThisHRfromThisCompany = HRworker::where('user_id',$user->id)
-                                                ->where('company_id',$idCompany)
-                                                ->get();
-            if(count($isThisHRfromThisCompany) == 0) {
-                return abort(404);
+        if ($this->idCompany != null) {
+
+            if ($this->hasHRAccessToCompanyID($user->id)){
+                return $next($request);
             }
+            return $next($request);
+        }
+    }
+
+    private function checkNotAvailabilityValues()
+    {
+        $result = false;
+        if (($this->idCompany == null)and($this->idDepartment == null)and($this->idWorker == null))  {
+            $result = true;
         }
 
-        return $next($request);
+        return $result;
     }
 
     private function userIsHR(int $idUser)
@@ -78,4 +79,35 @@ class HR
         }
         return $result;
     }
+
+    private function hasHRAccessToWorkerID($userId){
+        $result = false;
+        $this->idWorker = (int)$this->idWorker;
+        $checkNumberHR= DB::table('workers')
+            ->select('hrworkers.id')
+            ->join('departments','workers.department_id','=','departments.id')
+            ->join('companies', 'departments.company_id','=','companies.id')
+            ->join('hrworkers','companies.id','=','hrworkers.company_id')
+            ->where('workers.user_id','=',$this->idWorker)
+            ->where('hrworkers.user_id','=',$userId)
+            ->get();
+        if (count($checkNumberHR) > 0){
+            $result = true;
+        }
+        return $result;
+    }
+
+    private function hasHRAccessToCompanyID($userId){
+        $result = false;
+        $this->idCompany = (int)$this->idCompany;
+        $isThisHRfromThisCompany = HRworker::where('user_id',$userId)
+            ->where('company_id',$this->idCompany)
+            ->get();
+        if(count($isThisHRfromThisCompany) > 0) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
 }
