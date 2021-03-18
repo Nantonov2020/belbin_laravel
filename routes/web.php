@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::group(['middleware' => 'HR'],function() {
         Route::get('/hr/company/{idCompany}', [DepartmentsController::class, 'showDepartments'])->where('idCompany', '[0-9]+')->name('hr.index');
         Route::get('/hr/department/{idDepartment}', [DepartmentsController::class, 'showOneDepartment'])->where('idDepartment', '[0-9]+')->name('hr.department');
+        Route::get('/hr/findDepartment/{idCompany}', [DepartmentsController::class, 'findDepartment'])->where('idDepartment', '[0-9]+')->name('hr.findDepartment');
         Route::get('/hr/workers/{idCompany}', [WorkersController::class, 'showAllWorkers'])->where('idCompany', '[0-9]+')->name('hr.workers');
         Route::get('/hr/worker/{idWorker}', [WorkersController::class, 'showOneWorker'])->where('idWorker', '[0-9]+')->name('hr.worker');
 

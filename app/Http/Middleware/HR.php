@@ -109,5 +109,4 @@ class HR
 
         return $result;
     }
-
 }

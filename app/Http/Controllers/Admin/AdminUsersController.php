@@ -78,9 +78,6 @@ class AdminUsersController extends Controller
                         ->join('companies','hrworkers.company_id', '=', 'companies.id')
                         ->get();
         }else{
-            $worker = 0;
-            $HRworker = 0;
-
             return abort(404);
         }
 

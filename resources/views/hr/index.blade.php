@@ -7,7 +7,7 @@
             <h1>Организация: {{ $company->name }}</h1>
         </div>
         <div class="col-6">
-            <form action="#" method="GET">
+            <form action="{{ route('hr.findDepartment',['idCompany' => $company->id]) }}" method="GET">
                 @csrf
                 <div class="d-flex p-2 bd-highlight justify-content-end">
                     <div class="col-5"><input type="text" name="name" class="form-control " required="required" placeholder="Поиск: наименование подразделения"></div>

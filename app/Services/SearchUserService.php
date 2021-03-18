@@ -24,7 +24,15 @@ class SearchUserService
         if ($email) $arrayRequest[] = ['email','like',"%$email%"];
         if ($attribute) $arrayRequest[] = ['is_admin','=','1'];
 
-        return DB::table('users')->orderBy('updated_at')->where($arrayRequest)->select('id','firstName', 'secondName','middleName', 'email','is_admin')->paginate(config('app.pagination_users'))->appends('firstName',$firstName)->appends('secondName',$secondName)->appends('middleName',$middleName)->appends('email',$email)->appends('attribute',$attribute);
-
+        return DB::table('users')
+                ->orderBy('updated_at')
+                ->where($arrayRequest)
+                ->select('id','firstName', 'secondName','middleName', 'email','is_admin')
+                ->paginate(config('app.pagination_users'))
+                ->appends('firstName',$firstName)
+                ->appends('secondName',$secondName)
+                ->appends('middleName',$middleName)
+                ->appends('email',$email)
+                ->appends('attribute',$attribute);
     }
 }
