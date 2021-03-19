@@ -8,15 +8,19 @@ use App\Http\Requests\CorrectUserRequest;
 use App\Http\Requests\SearchUserRequest;
 use App\Models\Company;
 use App\Models\User;
-use App\Services\AddUserService;
 use App\Services\CorrectUserService;
 use App\Services\SearchUserService;
-use Illuminate\Http\Request;
+use App\Services\UserService;
 use Illuminate\Support\Facades\DB;
 
 class AdminUsersController extends Controller
 {
-    public function users()
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
+    public function showUsers()
     {
         return view('admin.users',['users'=>User::orderBy('updated_at', 'asc')->paginate(config('app.pagination_users'))]);
     }
@@ -24,7 +28,7 @@ class AdminUsersController extends Controller
     public function searchUser(SearchUserRequest $request){
 
         $data = $request->only(['firstName','secondName','middleName','email','attribute']);
-        $users = (new SearchUserService())->make($data);
+        $users = $this->userService->searchUser($data);
         return view('admin.users', ['users'=>$users]);
     }
 
@@ -36,9 +40,10 @@ class AdminUsersController extends Controller
     public function addUser(AddUserRequest $request){
         $data = $request->only(['email','secondName','firstName','middleName','department','company', 'hr', 'head', 'candidate','phone']);
 
-        (new AddUserService())->make($data);
-
-        return back()->with('success', 'Пользователь добавлен.');
+        if ($this->userService->addUser($data)) {
+            return back()->with('success', 'Пользователь добавлен.');
+        }
+        return abort(404);
     }
 
     public function deleteUser($id){
@@ -57,11 +62,13 @@ class AdminUsersController extends Controller
     public function correctUserAction(CorrectUserRequest $request)
     {
         $data = $request->only(['user_id','email','secondName','firstName','middleName']);
-        (new CorrectUserService())->make($data);
-        return back()->with('success', 'Данные скорректированы.');
+        if ($this->userService->correctUser($data)) {
+            return back()->with('success', 'Данные скорректированы.');
+        }
+        return back()->with('success', 'Произошла ошибка. Данные не изменены.');
     }
 
-    public function user($id)
+    public function showUser($id)
     {
         $id = (int)$id;
         $user = User::find($id);

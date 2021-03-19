@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteCompanyRequest;
+use App\Http\Requests\DepartmentStoreRequest;
+use App\Http\Requests\DepartmentUpdateRequest;
 use App\Http\Requests\findDepartmentRequest;
 use App\Models\Company;
 use App\Models\Department;
@@ -12,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class AdminDepartmentsController extends Controller
 {
-    public function departments()
+    public function showDepartments()
     {
         $departments = DB::table('companies')->orderBy('companies.id')
                     ->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')
@@ -48,12 +50,36 @@ class AdminDepartmentsController extends Controller
         return view('admin.addDepartment',['companies'=>Company::where('is_delete', false)->get()]);
     }
 
-    public function renameDepartment($id)
+    public function storeDepartment(DepartmentStoreRequest $request)
+    {
+        $data = $request->only(['name', 'company_id']);
+
+        $department = new Department();
+        $department->name = $data['name'];
+        $department->company_id = $data['company_id'];
+        $department->save();
+
+        return redirect()->back()->with('success', 'Подразделение добавлено.');
+    }
+
+    public function updateDepartment(DepartmentUpdateRequest $request, int $id)
+    {
+        $data = $request->only(['name']);
+        $name = $data['name'];
+
+        $department = Department::find($id);
+        $department->name = $name;
+        $department->save();
+
+        return redirect()->back()->with('success', 'Наименование подразделения скорректировано.');
+    }
+
+    public function renameDepartment(int $id)
     {
         return view('admin.renameDepartment',['department'=>Department::find($id)]);
     }
 
-    public function department($id)
+    public function showDepartment(int $id)
     {
         $id = (int)$id;
         $department = DB::table('departments')

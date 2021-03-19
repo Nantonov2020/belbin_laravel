@@ -5,7 +5,7 @@
         {{ session('success') }}
     </div>
     <h3>Добавить подразделение</h3>
-    <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('department.store')}}">
+    <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('admin.storeDepartment')}}">
         @csrf
         <div class="form-group col-md-7">
             <input type="text" name="name" class="form-control" required="required" placeholder="Наименование подразделения" value="{{old('name')}}">

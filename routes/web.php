@@ -9,7 +9,6 @@ use App\Http\Controllers\Admin\AdminWorkerController;
 use App\Http\Controllers\BelbinController;
 use App\Http\Controllers\HR\DepartmentsController;
 use App\Http\Controllers\HR\WorkersController;
-use App\Http\Controllers\Resource\CompanyController;
 use App\Http\Controllers\Resource\DepartmentController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,15 +38,19 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/deletecompany', [AdminCompanyController::class, 'deleteCompany'])->name('admin.deletecompany');
         Route::get('/renamecompany/{id}', [AdminCompanyController::class, 'renameCompany'])->where('id', '[0-9]+')->name('admin.renamecompany');
         Route::post('/find', [AdminCompanyController::class, 'findCompany'])->name('findCompany');
-        Route::get('/company/{id}', [AdminCompanyController::class, 'company'])->where('id', '[0-9]+')->name('admin.company');
+        Route::get('/company/{id}', [AdminCompanyController::class, 'showCompany'])->where('id', '[0-9]+')->name('admin.company');
+        Route::post('/storeCompany', [AdminCompanyController::class, 'storeCompany'])->name('admin.storeCompany');
+        Route::post('/updateCompany/{id}', [AdminCompanyController::class, 'updateCompany'])->where('id', '[0-9]+')->name('admin.updateCompany');
 
         Route::get('/deleteDepartment', [AdminDepartmentsController::class, 'deleteDepartment'])->name('admin.deleteDepartment');
         Route::get('/addDepartment', [AdminDepartmentsController::class, 'addDepartment'])->name('admin.addDepartment');
         Route::get('/renameDepartment/{id}', [AdminDepartmentsController::class, 'renameDepartment'])->where('id', '[0-9]+')->name('admin.renameDepartment');
         Route::get('/findDepartment', [AdminDepartmentsController::class, 'findDepartment'])->name('findDepartment');
-        Route::get('/departments', [AdminDepartmentsController::class, 'departments'])->name('departments');
-        Route::get('/department/{id}', [AdminDepartmentsController::class, 'department'])->where('id', '[0-9]+')->name('department');
+        Route::get('/departments', [AdminDepartmentsController::class, 'showDepartments'])->name('departments');
+        Route::get('/department/{id}', [AdminDepartmentsController::class, 'showDepartment'])->where('id', '[0-9]+')->name('department');
         Route::get('/giveSetDepartments', [AdminDepartmentsController::class, 'giveSetDepartments'])->name('giveSetDepartments');
+        Route::post('/storeDepartment', [AdminDepartmentsController::class, 'storeDepartment'])->name('admin.storeDepartment');
+        Route::post('/updateDepartment/{id}', [AdminDepartmentsController::class, 'updateDepartment'])->where('id', '[0-9]+')->name('admin.updateDepartment');
 
         Route::get('/searchUser', [AdminUsersController::class, 'searchUser'])->name('searchUser');
         Route::get('/addUserForm', [AdminUsersController::class, 'addUserForm'])->name('addUserForm');
@@ -57,8 +60,8 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/deleteStatusAdmin/{id}', [AdminUsersController::class, 'deleteStatusAdmin'])->where('id', '[0-9]+')->name('deleteStatusAdmin');
         Route::get('/correctUser/{id}', [AdminUsersController::class, 'correctUser'])->where('id', '[0-9]+')->name('correctUser');
         Route::post('/correctUser', [AdminUsersController::class, 'correctUserAction'])->name('correctUserAction');
-        Route::get('/user/{id}', [AdminUsersController::class, 'user'])->where('id', '[0-9]+')->name('user');
-        Route::get('/users', [AdminUsersController::class, 'users'])->name('admin.users');
+        Route::get('/user/{id}', [AdminUsersController::class, 'showUser'])->where('id', '[0-9]+')->name('user');
+        Route::get('/users', [AdminUsersController::class, 'showUsers'])->name('admin.users');
 
         Route::get('/deleteStatusHRworker/{id}/{id_company}', [AdminHRworkerController::class, 'deleteStatusHRworker'])->where('id', '[0-9]+')->where('id_company', '[0-9]+')->name('deleteStatusHRworker');
         Route::get('/giveStatusHR/{id}', [AdminHRworkerController::class, 'giveStatusHR'])->where('id', '[0-9]+')->name('giveStatusHR');
@@ -68,9 +71,6 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/makeWorker/{id}', [AdminWorkerController::class, 'makeWorker'])->where('id', '[0-9]+')->name('makeWorker');
         Route::post('/makeWorkerAction', [AdminWorkerController::class, 'makeWorkerAction'])->name('makeWorkerAction');
         Route::get('/deleteStatusWorker/{id}/{id_department}', [AdminWorkerController::class, 'deleteStatusWorker'])->where('id', '[0-9]+')->where('id_department', '[0-9]+')->name('deleteStatusWorker');
-
-        Route::resource('/company', CompanyController::class);
-        Route::resource('/department', DepartmentController::class);
     });
     Route::get('/home/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/home/start', [BelbinController::class, 'start'])->name('user.start');
@@ -83,9 +83,6 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/hr/findDepartment/{idCompany}', [DepartmentsController::class, 'findDepartment'])->where('idDepartment', '[0-9]+')->name('hr.findDepartment');
         Route::get('/hr/workers/{idCompany}', [WorkersController::class, 'showAllWorkers'])->where('idCompany', '[0-9]+')->name('hr.workers');
         Route::get('/hr/worker/{idWorker}', [WorkersController::class, 'showOneWorker'])->where('idWorker', '[0-9]+')->name('hr.worker');
-
-
-
     });
 
 });

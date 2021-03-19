@@ -10,8 +10,7 @@
 
         <h3>Смена наименования для компании: {{$company->name}}</h3>
 
-        <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('company.update',$id=$company->id)}}">
-            @method("put")
+        <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('admin.updateCompany',$id=$company->id)}}">
             @csrf
             <div class="form-group col-md-6">
                 <input type="text" name="name" class="form-control" required="required" placeholder="Скорректированное наименование" value="{{old('name')}}">

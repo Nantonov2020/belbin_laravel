@@ -44,7 +44,7 @@
     {{ $companies->links() }}
 
     <h3>Добавить организацию</h3>
-    <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('company.store')}}">
+    <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('admin.storeCompany')}}">
         @csrf
         <div class="form-group col-md-6">
             <input type="text" name="name" class="form-control" required="required" placeholder="Наименование организации" value="{{old('name')}}">

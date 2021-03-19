@@ -10,8 +10,7 @@
 
         <h3>Смена наименования для подразделения: <a href="{{route('department',$id=$department->id)}}">{{$department->name}}</a></h3>
 
-        <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('department.update', $id=$department->id)}}">
-            @method("put")
+        <form id="main-contact-form" class="contact-form row" name="contact-form" method="post" action="{{route('admin.updateDepartment', $id=$department->id)}}">
             @csrf
             <div class="form-group col-md-6">
                 <input type="text" name="name" class="form-control" required="required" placeholder="Скорректированное наименование" value="{{old('name')}}">
