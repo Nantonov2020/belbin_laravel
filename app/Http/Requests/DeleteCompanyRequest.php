@@ -25,7 +25,6 @@ class DeleteCompanyRequest extends FormRequest
     {
         return [
             'id' => 'required|integer|exists:companies',
-            'type' => 'required|boolean'
         ];
     }
 }

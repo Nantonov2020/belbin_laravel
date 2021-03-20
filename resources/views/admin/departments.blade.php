@@ -33,9 +33,9 @@
         <h6 class="text-success">Организация: <a href="{{route('admin.company',$id = $department->idCompany)}}">{{$department->nameCompany}}</a></h6>
             @if ($department->is_delete)
                 <span class="badge badge-info">Удалена</span>
-                <a href="{{route('admin.deleteDepartment',['id'=>$department->id, 'type'=>false])}}" class="badge badge-success">Восстановить</a>
+                <a href="{{route('admin.restoreDepartment',['id'=>$department->id])}}" class="badge badge-success">Восстановить</a>
             @else
-                <a href="{{route('admin.deleteDepartment',['id'=>$department->id, 'type'=>true])}}" class="badge badge-danger">Удалить</a>
+                <a href="{{route('admin.deleteDepartment',['id'=>$department->id])}}" class="badge badge-danger">Удалить</a>
                 <a href="{{route('admin.renameDepartment',$id = $department->id)}}" class="badge badge-primary">Переименовать</a>
             @endif
         </p>

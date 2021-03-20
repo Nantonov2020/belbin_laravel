@@ -36,19 +36,20 @@ Route::group(['middleware' => 'auth'],function() {
     Route::group(['middleware' => 'admin'],function() {
         Route::get('/admin', [AdminCompanyController::class, 'index'])->name('admin');
         Route::get('/deletecompany', [AdminCompanyController::class, 'deleteCompany'])->name('admin.deletecompany');
-        Route::get('/renamecompany/{id}', [AdminCompanyController::class, 'renameCompany'])->where('id', '[0-9]+')->name('admin.renamecompany');
+        Route::get('/renamecompany/{id}', [AdminCompanyController::class, 'showFormForRenameCompany'])->where('id', '[0-9]+')->name('admin.renamecompany');
         Route::post('/find', [AdminCompanyController::class, 'findCompany'])->name('findCompany');
         Route::get('/company/{id}', [AdminCompanyController::class, 'showCompany'])->where('id', '[0-9]+')->name('admin.company');
         Route::post('/storeCompany', [AdminCompanyController::class, 'storeCompany'])->name('admin.storeCompany');
         Route::post('/updateCompany/{id}', [AdminCompanyController::class, 'updateCompany'])->where('id', '[0-9]+')->name('admin.updateCompany');
 
         Route::get('/deleteDepartment', [AdminDepartmentsController::class, 'deleteDepartment'])->name('admin.deleteDepartment');
+        Route::get('/restoreDepartment', [AdminDepartmentsController::class, 'restoreDepartment'])->name('admin.restoreDepartment');
         Route::get('/addDepartment', [AdminDepartmentsController::class, 'addDepartment'])->name('admin.addDepartment');
         Route::get('/renameDepartment/{id}', [AdminDepartmentsController::class, 'renameDepartment'])->where('id', '[0-9]+')->name('admin.renameDepartment');
         Route::get('/findDepartment', [AdminDepartmentsController::class, 'findDepartment'])->name('findDepartment');
         Route::get('/departments', [AdminDepartmentsController::class, 'showDepartments'])->name('departments');
         Route::get('/department/{id}', [AdminDepartmentsController::class, 'showDepartment'])->where('id', '[0-9]+')->name('department');
-        Route::get('/giveSetDepartments', [AdminDepartmentsController::class, 'giveSetDepartments'])->name('giveSetDepartments');
+        Route::get('/giveSetDepartments', [AdminDepartmentsController::class, 'giveSetDepartmentsForCompany'])->name('giveSetDepartments');
         Route::post('/storeDepartment', [AdminDepartmentsController::class, 'storeDepartment'])->name('admin.storeDepartment');
         Route::post('/updateDepartment/{id}', [AdminDepartmentsController::class, 'updateDepartment'])->where('id', '[0-9]+')->name('admin.updateDepartment');
 

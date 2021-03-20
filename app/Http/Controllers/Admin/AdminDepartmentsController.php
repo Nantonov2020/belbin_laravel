@@ -9,55 +9,56 @@ use App\Http\Requests\DepartmentUpdateRequest;
 use App\Http\Requests\findDepartmentRequest;
 use App\Models\Company;
 use App\Models\Department;
+use App\Services\DepartmentService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AdminDepartmentsController extends Controller
 {
+    public function __construct(DepartmentService $departmentService)
+    {
+        $this->departmentService = $departmentService;
+    }
+
     public function showDepartments()
     {
-        $departments = DB::table('companies')->orderBy('companies.id')
-                    ->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')
-                    ->join('departments','companies.id', '=', 'departments.company_id')->paginate(config('app.pagination_departments'));
+        $departments = $this->departmentService->showAllDepartments();
 
         return view('admin.departments',['departments'=>$departments]);
     }
+
     public function findDepartment(findDepartmentRequest $request)
     {
         $data = $request->only(['name']);
-        $name = $data['name'];
-        $departments = DB::table('companies')->orderBy('companies.id')
-                    ->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')
-                    ->where('departments.name', 'like', "%$name%")
-                    ->join('departments','companies.id', '=', 'departments.company_id')
-                    ->paginate(config('app.pagination_departments'))
-                    ->appends('name',$name);
+        $departments = $this->departmentService->findDepartment($data);
+
         return view('admin.departments',['departments'=>$departments]);
     }
 
     public function deleteDepartment(DeleteCompanyRequest $request)
     {
-        $data = $request->only(['id','type']);
-        $id = $data['id'];
-        $type = $data['type'];
-        $company = Department::find($id);
-        $company->is_delete = (bool)$type;
-        $company->save();
+        $data = $request->only(['id']);
+        $this->departmentService->deleteDepartment($data);
+
         return back();
     }
+
+    public function restoreDepartment(DeleteCompanyRequest $request)
+    {
+        $data = $request->only(['id']);
+        $this->departmentService->restoreDepartment($data);
+
+        return back();
+    }
+
     public function addDepartment()
     {
-        return view('admin.addDepartment',['companies'=>Company::where('is_delete', false)->get()]);
+        return view('admin.addDepartment',['companies'=>Company::where('is_delete', false)->cursor()]);
     }
 
     public function storeDepartment(DepartmentStoreRequest $request)
     {
         $data = $request->only(['name', 'company_id']);
-
-        $department = new Department();
-        $department->name = $data['name'];
-        $department->company_id = $data['company_id'];
-        $department->save();
+        $this->departmentService->storeDepartment($data);
 
         return redirect()->back()->with('success', 'Подразделение добавлено.');
     }
@@ -65,11 +66,7 @@ class AdminDepartmentsController extends Controller
     public function updateDepartment(DepartmentUpdateRequest $request, int $id)
     {
         $data = $request->only(['name']);
-        $name = $data['name'];
-
-        $department = Department::find($id);
-        $department->name = $name;
-        $department->save();
+        $this->departmentService->updateDepartment($data['name'], $id);
 
         return redirect()->back()->with('success', 'Наименование подразделения скорректировано.');
     }
@@ -81,25 +78,19 @@ class AdminDepartmentsController extends Controller
 
     public function showDepartment(int $id)
     {
-        $id = (int)$id;
-        $department = DB::table('departments')
-            ->select('company_id','companies.name as company_name', 'departments.is_delete as is_delete','departments.id as department_id', 'departments.name as name')
-            ->where('departments.id','=',$id)->join('companies','departments.company_id','=','companies.id')
-            ->limit(1)->get();
-        $workers = DB::table('workers')->join('users','workers.user_id','=','users.id')
-                    ->where('workers.department_id','=',$id)->get();
+        $idDepartment = (int)$id;
+
+        list ($department, $workers) = $this->departmentService->giveInfoAboutDepartment($idDepartment);
+
         return view('admin.department', ['department'=>$department[0],'workers'=>$workers]);
     }
 
-    public function giveSetDepartments(Request $request) //Ajax
+    public function giveSetDepartmentsForCompany(Request $request) //Ajax
     {
         $data = $request->only(['id']);
-        $id = (int)$data['id'];
-        $departments = Department::where('company_id',$id)->get();
-        $results = [];
-        foreach ($departments as $department){
-            $results[$department->id] = $department->name;
-        }
+        $idCompany = (int)$data['id'];
+        $results = $this->departmentService->giveSetDepartmentsForCompany($idCompany);
+
         return $results;
     }
 

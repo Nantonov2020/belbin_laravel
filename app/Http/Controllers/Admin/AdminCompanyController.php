@@ -44,10 +44,11 @@ class AdminCompanyController extends Controller
     {
         $company = Company::find($id);
         $departments = Department::where('company_id',$id)
-                                    ->get();
+                                    ->cursor();
+
         $hrworkers = DB::table('users')->select('users.id as user_id','firstName', 'secondName','middleName', 'phone')
                                             ->join('hrworkers','users.id', '=', 'hrworkers.user_id')
-                                            ->where('hrworkers.company_id','=',$id)->get();
+                                            ->where('hrworkers.company_id','=',$id)->cursor();
         return view('admin.company',['company'=>$company, 'departments'=>$departments,'hrworkers'=>$hrworkers]);
     }
 
@@ -71,7 +72,7 @@ class AdminCompanyController extends Controller
         return back();
     }
 
-    public function renameCompany(int $id)
+    public function showFormForRenameCompany(int $id)
     {
         return view('admin.renameCompany',['company'=>Company::find($id)]);
     }

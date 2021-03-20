@@ -23,11 +23,9 @@ class UserService
         if ($correctData['department']){
             $this->addToDBInformationAboutDepartmentForCurrentUser($correctData, $idNewUser);
         }
-
         if ($correctData['hr']){
             $this->addToDBStatusHRForCurrentUser($correctData, $idNewUser);
         }
-
         DB::commit();
 
         return true;
