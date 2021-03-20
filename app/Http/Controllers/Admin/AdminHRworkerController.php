@@ -4,56 +4,45 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
-use App\Models\HRworker;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Services\HRService;
 
 class AdminHRworkerController extends Controller
 {
-    public function giveStatusHR($id){
-        $id = (int)$id;
-        return view('admin.giveStatusHR',['user' => User::find($id), 'companies' => Company::where('is_delete', false)->get()]);
+    public function __construct(HRService $HRService)
+    {
+        $this->HRService = $HRService;
+    }
+
+    public function giveStatusHR(int $id){
+        return view('admin.giveStatusHR',['user' => User::find($id), 'companies' => Company::where('is_delete', false)->cursor()]);
     }
 
     public function giveStatusHRAction(Request $request)
     {
-        $data = $request->only(['user_id','company']);
+        $idUser = (int)$request->user_id;
+        $idCompany = (int)$request->company;
 
-        $user_id = (int)$data['user_id'];
-        $company_id = (int)$data['company'];
-
-        if ($company_id) {
-            $HRworker = new HRworker();
-            $HRworker->user_id = $user_id;
-            $HRworker->company_id = $company_id;
-            $HRworker->save();
+        if ($idCompany) {
+            $this->HRService->giveStatusHRforUser($idUser, $idCompany);
 
             return back()->with('success', 'Пользователю присвоен статус HR.');
         }
         return back()->with('success', 'Не указана организация.');
     }
 
-    public function deleteStatusHRworker($user_id,$company_id)
+    public function deleteStatusHRworker(int $idUser,int $idCompany)
     {
-        $user_id = (int)$user_id;
-        $company_id = (int)$company_id;
+        $this->HRService->deleteStatusHRworker($idUser,$idCompany);
 
-        HRworker::where('user_id',$user_id)->where('company_id',$company_id)->first()->delete();
-
-        return back()->with('success', 'Пользователю удалён статус HR.');
+        return back()->with('success', 'У пользователя удалён статус HR.');
     }
 
-    public function HRworkers()
+    public function showAllHRworkers()
     {
-        $HRworkers = DB::table('hrworkers')
-                    ->select('user_id','company_id','phone','email','companies.name as company_name','firstName','secondName','middleName')
-                    ->join('users','hrworkers.user_id', '=', 'users.id')
-                    ->join('companies','hrworkers.company_id', '=', 'companies.id')
-                    ->paginate(config('app.pagination_users'));
+        $HRworkers = $this->HRService->giveInformationAboutAllHRWorkers();
 
         return view('admin.HRworkers',['HRworkers' => $HRworkers]);
-
     }
-
 }

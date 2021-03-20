@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeleteCompanyRequest;
+use App\Http\Requests\DeleteDepartmentRequest;
 use App\Http\Requests\DepartmentStoreRequest;
 use App\Http\Requests\DepartmentUpdateRequest;
 use App\Http\Requests\findDepartmentRequest;
@@ -34,7 +34,7 @@ class AdminDepartmentsController extends Controller
         return view('admin.departments',['departments'=>$departments]);
     }
 
-    public function deleteDepartment(DeleteCompanyRequest $request)
+    public function deleteDepartment(DeleteDepartmentRequest $request)
     {
         $data = $request->only(['id']);
         $this->departmentService->deleteDepartment($data);
@@ -42,7 +42,7 @@ class AdminDepartmentsController extends Controller
         return back();
     }
 
-    public function restoreDepartment(DeleteCompanyRequest $request)
+    public function restoreDepartment(DeleteDepartmentRequest $request)
     {
         $data = $request->only(['id']);
         $this->departmentService->restoreDepartment($data);

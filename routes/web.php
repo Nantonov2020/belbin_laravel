@@ -68,10 +68,10 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/deleteStatusHRworker/{id}/{id_company}', [AdminHRworkerController::class, 'deleteStatusHRworker'])->where('id', '[0-9]+')->where('id_company', '[0-9]+')->name('deleteStatusHRworker');
         Route::get('/giveStatusHR/{id}', [AdminHRworkerController::class, 'giveStatusHR'])->where('id', '[0-9]+')->name('giveStatusHR');
         Route::post('/giveStatusHR', [AdminHRworkerController::class, 'giveStatusHRAction'])->name('giveStatusHRAction');
-        Route::get('/HRworkers', [AdminHRworkerController::class, 'HRworkers'])->name('admin.HRworkers');
+        Route::get('/HRworkers', [AdminHRworkerController::class, 'showAllHRworkers'])->name('admin.HRworkers');
 
-        Route::get('/makeWorker/{id}', [AdminWorkerController::class, 'makeWorker'])->where('id', '[0-9]+')->name('makeWorker');
-        Route::post('/makeWorkerAction', [AdminWorkerController::class, 'makeWorkerAction'])->name('makeWorkerAction');
+        Route::get('/makeWorker/{id}', [AdminWorkerController::class, 'showFormForMakeStatusWorker'])->where('id', '[0-9]+')->name('makeWorker');
+        Route::post('/makeWorkerAction', [AdminWorkerController::class, 'makeStatusWorkerForUser'])->name('makeWorkerAction');
         Route::get('/deleteStatusWorker/{id}/{id_department}', [AdminWorkerController::class, 'deleteStatusWorker'])->where('id', '[0-9]+')->where('id_department', '[0-9]+')->name('deleteStatusWorker');
     });
     Route::get('/home/user', [UserController::class, 'index'])->name('user.index');

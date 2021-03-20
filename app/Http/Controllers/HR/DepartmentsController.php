@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\DB;
 class DepartmentsController extends Controller
 {
     public function showDepartments(int $idCompany){
-        $idCompany = (int)$idCompany;
         $company = Company::find($idCompany);
         $departments =  Department::where('company_id',$idCompany)
                                     ->paginate(config('app.pagination_departments'));
@@ -25,8 +24,7 @@ class DepartmentsController extends Controller
 
     public function findDepartment(Request $request, int $idCompany)
     {
-        $data = $request->only(['name']);
-        $textForFindDepartments = $data['name'];
+        $textForFindDepartments = $request->name;
 
         $company = Company::find($idCompany);
 
@@ -37,7 +35,7 @@ class DepartmentsController extends Controller
             ->join('departments','companies.id', '=', 'departments.company_id')
             ->paginate(config('app.pagination_departments'))
             ->appends('name',$textForFindDepartments)
-            ->appends('idComapny',$idCompany);
+            ->appends('idCompany',$idCompany);
 
         return view('hr.index',['company' => $company, 'departments' => $departments]);
     }

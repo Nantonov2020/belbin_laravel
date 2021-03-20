@@ -44,17 +44,15 @@ class AdminUsersController extends Controller
         return abort(404);
     }
 
-    public function deleteUser(int $id){
-        $id = (int)$id;
-        User::destroy($id);
+    public function deleteUser(int $idUser){
+        User::destroy($idUser);
 
-        return back()->with('success', 'Пользователь удален.');
+        return redirect()->route('admin.users');
     }
 
-    public function showFormForCorrectUserInfo(int $id)
+    public function showFormForCorrectUserInfo(int $idUser)
     {
-        $id = (int)$id;
-        return view('admin.correctUser',['user' => User::find($id)]);
+        return view('admin.correctUser',['user' => User::find($idUser)]);
     }
 
     public function correctUserAction(CorrectUserRequest $request)
@@ -68,7 +66,6 @@ class AdminUsersController extends Controller
 
     public function showUser(int $idUser)
     {
-        $idUser = (int)$idUser;
         $user = User::find($idUser);
         if ($user) {
             list($worker, $HRworker) = $this->userService->giveInformationAboutUser($idUser);
@@ -79,14 +76,12 @@ class AdminUsersController extends Controller
 
     public function makeStatusAdmin(int $idUser)
     {
-        $idUser = (int)$idUser;
         $this->userService->giveStatusAdminToUser($idUser);
         return back()->with('success', 'Пользователю присвоен статус Администратора.');
     }
 
     public function deleteStatusAdmin(int $idUser)
     {
-        $idUser = (int)$idUser;
         $this->userService->deleteStatusAdminToUser($idUser);
         return back()->with('success', 'Пользователь лишен статуса Администратора.');
     }

@@ -7,51 +7,45 @@ use App\Http\Requests\MakeWorkerRequest;
 use App\Models\Company;
 use App\Models\User;
 use App\Models\Worker;
-use Illuminate\Http\Request;
+use App\Services\WorkersService;
 
 class AdminWorkerController extends Controller
 {
-    public function makeWorker($id)
+    public function __construct(WorkersService $workersService)
     {
-        $id = (int)$id;
-        $user = User::find($id);
+        $this->workersService = $workersService;
+    }
+
+    public function showFormForMakeStatusWorker(int $idUser)
+    {
+        $user = User::find($idUser);
 
         if ($user){
-            $companies = Company::where('is_delete',false)->get();
+            $companies = Company::where('is_delete',false)->cursor();
             return view('admin.makeWorker',['user' => $user,'companies'=>$companies]);
         }
         return abort(404);
     }
 
-    public function makeWorkerAction(MakeWorkerRequest $request){
+    public function makeStatusWorkerForUser(MakeWorkerRequest $request){
         $data = $request->only(['user_id','department','head','candidate']);
 
-        (isset($data['head']))?($head = true):($head = false);
-        (isset($data['candidate']))?($candidate = true):($candidate = false);
-        $department = (int)$data['department'];
-        $user_id = (int)$data['user_id'];
-        if ($department) {
-            $worker = new Worker();
-            $worker->user_id = $user_id;
-            $worker->department_id = $department;
-            $worker->is_head = $head;
-            $worker->is_candidate = $candidate;
-            $worker->save();
+        $correctData = $this->workersService->makeCorrectDataForStatusWorkerForUser($data);
 
+        if ($correctData['department']) {
+            $this->workersService->makeStatusWorkerForUser($correctData);
             return back()->with('success', 'Пользователю установлен статус сотрудника.');
-        }else{
-            return back()->with('success', 'Необходимо выбрать подразделение.');
         }
+            return back()->with('success', 'Необходимо выбрать подразделение.');
     }
 
-    public function deleteStatusWorker($user_id,$department_id)
+    public function deleteStatusWorker(int $idUser, int $idDepartment)
     {
-        $user_id = (int)$user_id;
-        $department_id = (int)$department_id;
-
-        Worker::where('user_id',$user_id)->where('department_id',$department_id)->first()->delete();
+        Worker::where('user_id',$idUser)
+                ->where('department_id',$idDepartment)
+                ->first()
+                ->delete();
 
         return back()->with('success', 'Пользователь удалён из списка подразделения.');
     }
-
 }
