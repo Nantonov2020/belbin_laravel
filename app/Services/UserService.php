@@ -88,7 +88,6 @@ class UserService
 
     public function searchUser($data)
     {
-
         (isset($data['firstName']))?($firstName = $data['firstName']):($firstName = null);
         (isset($data['secondName']))?($secondName = $data['secondName']):($secondName = null);
         (isset($data['middleName']))?($middleName = $data['middleName']):($middleName = null);
@@ -131,6 +130,37 @@ class UserService
         $user->save();
 
         return true;
+    }
+
+    public function giveInformationAboutUser (int $idUser):array
+    {
+        $worker = DB::table('workers')
+            ->select('company_id','companies.name as name','is_head', 'is_candidate','departments.name as name_department','departments.id as id_department')
+            ->where('workers.user_id',$idUser)
+            ->join('departments','workers.department_id', '=', 'departments.id')
+            ->join('companies', 'departments.company_id', '=', 'companies.id')
+            ->get();
+        $HRworker = DB::table('hrworkers')
+            ->select('company_id','companies.name as name')
+            ->where('hrworkers.user_id',$idUser)
+            ->join('companies','hrworkers.company_id', '=', 'companies.id')
+            ->get();
+
+        return array($worker, $HRworker);
+    }
+
+    public function giveStatusAdminToUser(int $idUser):void
+    {
+        $user = User::find($idUser);
+        $user->is_admin = true;
+        $user->save();
+    }
+
+    public function deleteStatusAdminToUser(int $idUser):void
+    {
+        $user = User::find($idUser);
+        $user->is_admin = false;
+        $user->save();
     }
 
 }

@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::group(['middleware' => 'admin'],function() {
         Route::get('/admin', [AdminCompanyController::class, 'index'])->name('admin');
         Route::get('/deletecompany', [AdminCompanyController::class, 'deleteCompany'])->name('admin.deletecompany');
+        Route::get('/restorecompany', [AdminCompanyController::class, 'restoreCompany'])->name('admin.restorecompany');
         Route::get('/renamecompany/{id}', [AdminCompanyController::class, 'showFormForRenameCompany'])->where('id', '[0-9]+')->name('admin.renamecompany');
         Route::post('/find', [AdminCompanyController::class, 'findCompany'])->name('findCompany');
         Route::get('/company/{id}', [AdminCompanyController::class, 'showCompany'])->where('id', '[0-9]+')->name('admin.company');
@@ -57,9 +58,9 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/addUserForm', [AdminUsersController::class, 'addUserForm'])->name('addUserForm');
         Route::post('/addUser', [AdminUsersController::class, 'addUser'])->name('addUser');
         Route::get('/deleteUser/{id}', [AdminUsersController::class, 'deleteUser'])->where('id', '[0-9]+')->name('deleteUser');
-        Route::get('/makeAdmin/{id}', [AdminUsersController::class, 'makeAdmin'])->where('id', '[0-9]+')->name('makeAdmin');
+        Route::get('/makeAdmin/{id}', [AdminUsersController::class, 'makeStatusAdmin'])->where('id', '[0-9]+')->name('makeAdmin');
         Route::get('/deleteStatusAdmin/{id}', [AdminUsersController::class, 'deleteStatusAdmin'])->where('id', '[0-9]+')->name('deleteStatusAdmin');
-        Route::get('/correctUser/{id}', [AdminUsersController::class, 'correctUser'])->where('id', '[0-9]+')->name('correctUser');
+        Route::get('/correctUser/{id}', [AdminUsersController::class, 'showFormForCorrectUserInfo'])->where('id', '[0-9]+')->name('correctUser');
         Route::post('/correctUser', [AdminUsersController::class, 'correctUserAction'])->name('correctUserAction');
         Route::get('/user/{id}', [AdminUsersController::class, 'showUser'])->where('id', '[0-9]+')->name('user');
         Route::get('/users', [AdminUsersController::class, 'showUsers'])->name('admin.users');

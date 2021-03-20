@@ -8,10 +8,8 @@ use App\Http\Requests\CorrectUserRequest;
 use App\Http\Requests\SearchUserRequest;
 use App\Models\Company;
 use App\Models\User;
-use App\Services\CorrectUserService;
-use App\Services\SearchUserService;
 use App\Services\UserService;
-use Illuminate\Support\Facades\DB;
+
 
 class AdminUsersController extends Controller
 {
@@ -46,14 +44,14 @@ class AdminUsersController extends Controller
         return abort(404);
     }
 
-    public function deleteUser($id){
+    public function deleteUser(int $id){
         $id = (int)$id;
         User::destroy($id);
 
         return back()->with('success', 'Пользователь удален.');
     }
 
-    public function correctUser($id)
+    public function showFormForCorrectUserInfo(int $id)
     {
         $id = (int)$id;
         return view('admin.correctUser',['user' => User::find($id)]);
@@ -68,44 +66,28 @@ class AdminUsersController extends Controller
         return back()->with('success', 'Произошла ошибка. Данные не изменены.');
     }
 
-    public function showUser($id)
+    public function showUser(int $idUser)
     {
-        $id = (int)$id;
-        $user = User::find($id);
+        $idUser = (int)$idUser;
+        $user = User::find($idUser);
         if ($user) {
-            $worker = DB::table('workers')
-                        ->select('company_id','companies.name as name','is_head', 'is_candidate','departments.name as name_department','departments.id as id_department')
-                        ->where('workers.user_id',$id)
-                        ->join('departments','workers.department_id', '=', 'departments.id')
-                        ->join('companies', 'departments.company_id', '=', 'companies.id')
-                        ->get();
-            $HRworker = DB::table('hrworkers')
-                        ->select('company_id','companies.name as name')
-                        ->where('hrworkers.user_id',$id)
-                        ->join('companies','hrworkers.company_id', '=', 'companies.id')
-                        ->get();
-        }else{
-            return abort(404);
+            list($worker, $HRworker) = $this->userService->giveInformationAboutUser($idUser);
+            return view('admin.user',['user' => $user, 'worker'=>$worker, 'HRworker'=>$HRworker]);
         }
-
-        return view('admin.user',['user' => $user, 'worker'=>$worker, 'HRworker'=>$HRworker]);
+            return abort(404);
     }
 
-    public function makeAdmin($id)
+    public function makeStatusAdmin(int $idUser)
     {
-        $id = (int)$id;
-        $user = User::find($id);
-        $user->is_admin = true;
-        $user->save();
+        $idUser = (int)$idUser;
+        $this->userService->giveStatusAdminToUser($idUser);
         return back()->with('success', 'Пользователю присвоен статус Администратора.');
     }
 
-    public function deleteStatusAdmin($id)
+    public function deleteStatusAdmin(int $idUser)
     {
-        $id = (int)$id;
-        $user = User::find($id);
-        $user->is_admin = false;
-        $user->save();
+        $idUser = (int)$idUser;
+        $this->userService->deleteStatusAdminToUser($idUser);
         return back()->with('success', 'Пользователь лишен статуса Администратора.');
     }
 }

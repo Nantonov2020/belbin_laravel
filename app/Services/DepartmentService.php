@@ -90,8 +90,6 @@ class DepartmentService
         foreach ($departments as $department){
             $results[$department->id] = $department->name;
         }
-
         return $results;
     }
-
 }

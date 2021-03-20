@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyStoreRequest;
 use App\Http\Requests\DeleteCompanyRequest;
 use App\Models\Company;
-use App\Models\Department;
+use App\Services\CompanyService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class AdminCompanyController extends Controller
 {
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
     public function index()
     {
         return view('admin.index',['companies'=>Company::orderBy('is_delete', 'asc')
@@ -20,42 +24,30 @@ class AdminCompanyController extends Controller
 
     public function storeCompany(CompanyStoreRequest $request)
     {
-        $data = $request->only(['name']);
-
-        $company = new Company();
-        $company->name = $data['name'];
-        $company->save();
+        $nameNewCompany = $request->name;
+        $this->companyService->storeCompany($nameNewCompany);
 
         return redirect()->route('admin')->with('success', 'Компания добавлена.');
     }
 
     public function updateCompany(CompanyStoreRequest $request, int $id)
     {
-        $data =  $request->only(['name']);
-
-        $company = Company::find($id);
-        $company->name = $data['name'];
-        $company->save();
+        $newNameCompany = $request->name;
+        $this->companyService->updateNameCompany($newNameCompany, $id);
 
         return back()->with('success', 'Наименование скорректировано.');
     }
 
     public function showCompany(int $id)
     {
-        $company = Company::find($id);
-        $departments = Department::where('company_id',$id)
-                                    ->cursor();
+        list($company, $departments, $hrworkers) = $this->companyService->giveInfoAboutCompany($id);
 
-        $hrworkers = DB::table('users')->select('users.id as user_id','firstName', 'secondName','middleName', 'phone')
-                                            ->join('hrworkers','users.id', '=', 'hrworkers.user_id')
-                                            ->where('hrworkers.company_id','=',$id)->cursor();
         return view('admin.company',['company'=>$company, 'departments'=>$departments,'hrworkers'=>$hrworkers]);
     }
 
     public function findCompany(Request $request)
     {
-        $data = $request->only(['name']);
-        $name = $data['name'];
+        $name = $request->name;
 
         return view('admin.index',['companies'=>Company::where('name', 'like', "%$name%")
                                                             ->paginate(15)]);
@@ -63,12 +55,17 @@ class AdminCompanyController extends Controller
 
     public function deleteCompany(DeleteCompanyRequest $request)
     {
-        $data = $request->only(['id','type']);
-        $id = $data['id'];
-        $type = $data['type'];
-        $company = Company::find($id);
-        $company->is_delete = (bool)$type;
-        $company->save();
+        $idCompany = $request->id;
+        $this->companyService->deleteCompany($idCompany);
+
+        return back();
+    }
+
+    public function restoreCompany(DeleteCompanyRequest $request)
+    {
+        $idCompany = $request->id;
+        $this->companyService->restoreCompany($idCompany);
+
         return back();
     }
 

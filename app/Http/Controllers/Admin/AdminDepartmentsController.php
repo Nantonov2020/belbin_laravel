@@ -88,8 +88,7 @@ class AdminDepartmentsController extends Controller
     public function giveSetDepartmentsForCompany(Request $request) //Ajax
     {
         $data = $request->only(['id']);
-        $idCompany = (int)$data['id'];
-        $results = $this->departmentService->giveSetDepartmentsForCompany($idCompany);
+        $results = $this->departmentService->giveSetDepartmentsForCompany($data['id']);
 
         return $results;
     }
