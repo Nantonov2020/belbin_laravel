@@ -31,9 +31,14 @@
         </div>
         @forelse($departments as $department)
             <div class="col-12">
-                <p class="border border-primary"><a href="#"><h5>{{$department->name}}</h5></a>
-                    <a href="#" class="badge badge-danger">Удалить</a>
-                    <a href="#" class="badge badge-primary">Переименовать</a>
+                <p class="border border-primary"><a href="{{route('hr.department',$idDepartment = $department->id)}}"><h5>{{$department->name}}</h5></a>
+                    @if ($department->is_delete)
+                        <span class="badge badge-info">Удалена</span>
+                        <a href="{{route('hr.restoredepartment',$idDepartment = $department->id)}}" class="badge badge-success">Восстановить</a>
+                    @else
+                        <a href="{{ route('hr.deletedepartment', $idDepartment = $department->id) }}" class="badge badge-danger">Удалить</a>
+                        <a href="#" class="badge badge-primary">Переименовать</a>
+                    @endif
                 </p>
             </div>
             @empty
@@ -47,5 +52,5 @@
 
     </div>
 
-    <a href="#" type="button" class="btn btn-primary">Добавить подразделение</a>
+    <a href="{{ route('hr.addDepartmentForm', $idCompany = $company->id) }}" type="button" class="btn btn-primary">Добавить подразделение</a>
 @stop

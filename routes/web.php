@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\Admin\AdminWorkerController;
 use App\Http\Controllers\BelbinController;
 use App\Http\Controllers\HR\DepartmentsController;
+use App\Http\Controllers\HR\MenuController;
 use App\Http\Controllers\HR\WorkersController;
 use App\Http\Controllers\Resource\DepartmentController;
 use App\Http\Controllers\User\UserController;
@@ -85,6 +86,10 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/hr/findDepartment/{idCompany}', [DepartmentsController::class, 'findDepartment'])->where('idDepartment', '[0-9]+')->name('hr.findDepartment');
         Route::get('/hr/workers/{idCompany}', [WorkersController::class, 'showAllWorkers'])->where('idCompany', '[0-9]+')->name('hr.workers');
         Route::get('/hr/worker/{idWorker}', [WorkersController::class, 'showOneWorker'])->where('idWorker', '[0-9]+')->name('hr.worker');
+        Route::get('/hr/deletedepartment/{idDepartment}', [DepartmentsController::class, 'deleteDepartment'])->where('idDepartment', '[0-9]+')->name('hr.deletedepartment');
+        Route::get('/hr/restoredepartment/{idDepartment}', [DepartmentsController::class, 'restoreDepartment'])->where('idDepartment', '[0-9]+')->name('hr.restoredepartment');
+        Route::get('/hr/adddepartment/{idCompany}', [DepartmentsController::class, 'showFormForAddDepartment'])->where('idCompany', '[0-9]+')->name('hr.addDepartmentForm');
+        Route::post('/hr/adddepartmentAction/{idCompany}', [DepartmentsController::class, 'storeDepartment'])->where('idCompany', '[0-9]+')->name('hr.storeDepartment');
     });
 
 });

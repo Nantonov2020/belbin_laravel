@@ -20,6 +20,14 @@ class DepartmentService
         return $departments;
     }
 
+    public function showAllDepartmentsOfCompanyWithPanination(int $idCompany)
+    {
+        $departments =  Department::where('company_id',$idCompany)
+            ->paginate(config('app.pagination_departments'));
+
+        return $departments;
+    }
+
     public function findDepartment($data)
     {
         $name = $data['name'];
@@ -29,6 +37,21 @@ class DepartmentService
             ->join('departments','companies.id', '=', 'departments.company_id')
             ->paginate(config('app.pagination_departments'))
             ->appends('name',$name);
+
+        return $departments;
+    }
+
+    public function findDepartmentsOfCompany(int $idCompany, string $textForFindDepartments)
+    {
+        $departments = DB::table('companies')
+            ->orderBy('companies.id')
+            ->select('companies.id as idCompany','companies.name as nameCompany', 'departments.name','departments.id', 'departments.is_delete')
+            ->where('departments.name', 'like', "%$textForFindDepartments%")
+            ->where('departments.company_id','=',$idCompany)
+            ->join('departments','companies.id', '=', 'departments.company_id')
+            ->paginate(config('app.pagination_departments'))
+            ->appends('name',$textForFindDepartments)
+            ->appends('idCompany',$idCompany);
 
         return $departments;
     }
