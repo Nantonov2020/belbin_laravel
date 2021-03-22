@@ -16,6 +16,7 @@ class HR
 
     public function handle(Request $request, Closure $next)
     {
+
         $this->idCompany = $request->idCompany;
         $this->idDepartment = $request->idDepartment;
         $this->idWorker = $request->idWorker;
@@ -42,8 +43,9 @@ class HR
             if ($this->hasHRAccessToCompanyID($user->id)){
                 return $next($request);
             }
-            return $next($request);
+            return abort(404);
         }
+        return abort(404);
     }
 
     private function checkNotAvailabilityValues():bool

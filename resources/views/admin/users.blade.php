@@ -132,7 +132,7 @@
                 </a>
             </div>
             <div class="col-2 border text-center">
-                <a href="{{route('user',$id=$user->id)}}">
+                <a href="{{route('user',$id = $user->id)}}">
                 {{$user->email}}
                 </a>
             </div>

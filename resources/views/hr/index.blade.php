@@ -37,7 +37,7 @@
                         <a href="{{route('hr.restoredepartment',$idDepartment = $department->id)}}" class="badge badge-success">Восстановить</a>
                     @else
                         <a href="{{ route('hr.deletedepartment', $idDepartment = $department->id) }}" class="badge badge-danger">Удалить</a>
-                        <a href="#" class="badge badge-primary">Переименовать</a>
+                        <a href="{{ route('hr.renamedepartment', $idDepartment = $department->id) }}" class="badge badge-primary">Переименовать</a>
                     @endif
                 </p>
             </div>

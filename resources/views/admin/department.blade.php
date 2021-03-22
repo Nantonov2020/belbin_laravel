@@ -77,11 +77,11 @@
                             </a>
                             &nbsp;
                             @if ($department->is_delete)
-                                <a href="{{route('admin.deleteDepartment',['id'=>$department->department_id,'type'=>0])}}" class="btn btn-danger pull-right btn-sm" onClick='return confirm("Действительно желаете восстановить данное подразделение?")'>
+                                <a href="{{route('admin.restoreDepartment',['id'=>$department->department_id])}}" class="btn btn-danger pull-right btn-sm" onClick='return confirm("Действительно желаете восстановить данное подразделение?")'>
                                     Восстановить
                                 </a>
                             @else
-                                <a href="{{route('admin.deleteDepartment',['id'=>$department->department_id,'type'=>1])}}" class="btn btn-danger pull-right btn-sm" onClick='return confirm("Действительно желаете удалить данное подразделение?")'>
+                                <a href="{{route('admin.deleteDepartment',['id'=>$department->department_id])}}" class="btn btn-danger pull-right btn-sm" onClick='return confirm("Действительно желаете удалить данное подразделение?")'>
                                     Удалить
                                 </a>
                             @endif

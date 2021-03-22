@@ -4,9 +4,12 @@ namespace App\Http\Controllers\HR;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DepartmentStoreRequest;
+use App\Http\Requests\DepartmentUpdateRequest;
 use App\Http\Requests\findDepartmentRequest;
 use App\Models\Company;
+use App\Models\Department;
 use App\Services\DepartmentService;
+use Illuminate\Support\Facades\DB;
 
 class DepartmentsController extends Controller
 {
@@ -64,4 +67,17 @@ class DepartmentsController extends Controller
         return redirect()->back()->with('success', 'Подразделение добавлено.');
     }
 
+    public function showFormForRenameDapartment(int $idDepartment)
+    {
+        $department = Department::find($idDepartment);
+        return view('hr.renamedepartment',['department' => $department]);
+    }
+
+    public function updateDepartment(DepartmentUpdateRequest $request,int $idDepartment)
+    {
+        $newNameDepartment = $request->name;
+        $this->departmentService->updateDepartment($newNameDepartment, $idDepartment);
+
+        return redirect()->back()->with('success', 'Наименование подразделения скорректировано.');
+    }
 }

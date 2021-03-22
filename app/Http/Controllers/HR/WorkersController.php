@@ -4,14 +4,20 @@ namespace App\Http\Controllers\HR;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
+use App\Services\WorkersService;
 use Illuminate\Support\Facades\DB;
 
 class WorkersController extends Controller
 {
+    public function __construct(WorkersService $workersService)
+    {
+        $this->workersService = $workersService;
+    }
+
    public function showAllWorkers(int $idCompany)
    {
-       return view('hr.workers');
+       $workers = $this->workersService->giveAllWorkersOfCompanyWithPaginate($idCompany);
+       return view('hr.workers', ['workers' => $workers]);
    }
 
    public function showOneWorker(int $idWorker)

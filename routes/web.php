@@ -88,6 +88,8 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/hr/worker/{idWorker}', [WorkersController::class, 'showOneWorker'])->where('idWorker', '[0-9]+')->name('hr.worker');
         Route::get('/hr/deletedepartment/{idDepartment}', [DepartmentsController::class, 'deleteDepartment'])->where('idDepartment', '[0-9]+')->name('hr.deletedepartment');
         Route::get('/hr/restoredepartment/{idDepartment}', [DepartmentsController::class, 'restoreDepartment'])->where('idDepartment', '[0-9]+')->name('hr.restoredepartment');
+        Route::get('/hr/renameDepartment/{idDepartment}', [DepartmentsController::class, 'showFormForRenameDapartment'])->where('idDepartment', '[0-9]+')->name('hr.renamedepartment');
+        Route::post('/hr/renameDepartmentAction/{idDepartment}', [DepartmentsController::class, 'updateDepartment'])->where('idDepartment', '[0-9]+')->name('hr.updateDepartment');
         Route::get('/hr/adddepartment/{idCompany}', [DepartmentsController::class, 'showFormForAddDepartment'])->where('idCompany', '[0-9]+')->name('hr.addDepartmentForm');
         Route::post('/hr/adddepartmentAction/{idCompany}', [DepartmentsController::class, 'storeDepartment'])->where('idCompany', '[0-9]+')->name('hr.storeDepartment');
     });

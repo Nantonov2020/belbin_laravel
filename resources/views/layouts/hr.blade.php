@@ -26,7 +26,7 @@
 
     <div class="row">
         <div class="col-2 bg-white h-100">
-            <x-HRnav :message="$idCompany"></x-HRnav>
+            <x-HRnav></x-HRnav>
         </div>
         <div class="col-10 bg-light">
 
