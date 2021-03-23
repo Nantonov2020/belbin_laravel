@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class DepartmentsController extends Controller
 {
+    protected $departmentService;
+
     public function __construct(DepartmentService $departmentService)
     {
         $this->departmentService = $departmentService;

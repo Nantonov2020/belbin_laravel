@@ -11,6 +11,8 @@ use App\Services\WorkersService;
 
 class AdminWorkerController extends Controller
 {
+    protected $workersService;
+
     public function __construct(WorkersService $workersService)
     {
         $this->workersService = $workersService;

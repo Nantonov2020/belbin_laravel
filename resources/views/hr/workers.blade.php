@@ -3,8 +3,11 @@
 @section('content')
 
     <div class="row">
-        <div class="col-8"><h1>Список сотрудников</h1></div>
-        <div class="col-4"><a href="{{route('addUserForm')}}" type="button" class="btn btn-primary">Добавить сотрудника</a>
+        <div class="col-6"><h1>Список сотрудников</h1></div>
+        <div class="col-3"><a href="{{route('hr.addWorkerForm', $idCompany)}}" type="button" class="btn btn-primary">Добавить сотрудника</a>
+
+        </div>
+        <div class="col-3"><a href="{{ route('hr.findUser', $idCompany) }}" type="button" class="btn btn-primary">Найти пользователя в системе</a>
 
         </div>
     </div>
@@ -23,7 +26,7 @@
         <div class="col-2 border text-center"><b>Действия</b></div>
     </div>
 
-    <form action="{{route('searchUser')}}" method="GET">
+    <form action="{{route('hr.searchWorkers', $idCompany)}}" method="GET">
         @csrf
 
         <div class="row">

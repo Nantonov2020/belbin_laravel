@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 
 class AdminDepartmentsController extends Controller
 {
+    protected $departmentService;
+
     public function __construct(DepartmentService $departmentService)
     {
         $this->departmentService = $departmentService;

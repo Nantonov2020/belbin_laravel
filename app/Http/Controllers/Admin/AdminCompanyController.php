@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 
 class AdminCompanyController extends Controller
 {
+    protected $companyService;
+
     public function __construct(CompanyService $companyService)
     {
         $this->companyService = $companyService;

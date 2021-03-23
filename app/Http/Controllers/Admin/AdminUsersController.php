@@ -13,6 +13,8 @@ use App\Services\UserService;
 
 class AdminUsersController extends Controller
 {
+    protected $userService;
+
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;

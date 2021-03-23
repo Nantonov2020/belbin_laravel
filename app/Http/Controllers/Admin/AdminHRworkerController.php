@@ -10,6 +10,8 @@ use App\Services\HRService;
 
 class AdminHRworkerController extends Controller
 {
+    protected $HRService;
+
     public function __construct(HRService $HRService)
     {
         $this->HRService = $HRService;

@@ -92,6 +92,9 @@ Route::group(['middleware' => 'auth'],function() {
         Route::post('/hr/renameDepartmentAction/{idDepartment}', [DepartmentsController::class, 'updateDepartment'])->where('idDepartment', '[0-9]+')->name('hr.updateDepartment');
         Route::get('/hr/adddepartment/{idCompany}', [DepartmentsController::class, 'showFormForAddDepartment'])->where('idCompany', '[0-9]+')->name('hr.addDepartmentForm');
         Route::post('/hr/adddepartmentAction/{idCompany}', [DepartmentsController::class, 'storeDepartment'])->where('idCompany', '[0-9]+')->name('hr.storeDepartment');
+        Route::get('/hr/searchWorkers/{idCompany}', [WorkersController::class, 'searchWorkers'])->where('idCompany', '[0-9]+')->name('hr.searchWorkers');
+        Route::get('/hr/addWorkers/{idCompany}', [WorkersController::class, 'showFormForAddWorker'])->where('idCompany', '[0-9]+')->name('hr.addWorkerForm');
+        Route::post('/hr/addWorkerAction/{idCompany}', [WorkersController::class, 'storeWorker'])->where('idCompany', '[0-9]+')->name('hr.storeWorker');
+        Route::get('/hr/findUser/{idCompany}', [WorkersController::class, 'showFormForFindUser'])->where('idCompany', '[0-9]+')->name('hr.findUser');
     });
-
 });
