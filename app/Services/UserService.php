@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Models\Department;
 use App\Models\HRworker;
 use App\Models\User;
 use App\Models\Worker;
@@ -161,6 +162,13 @@ class UserService
         $user = User::find($idUser);
         $user->is_admin = false;
         $user->save();
+    }
+
+    public function findUserByEmail($email):array
+    {
+        $user = User::where('email',$email)->first();
+
+        return array($user);
     }
 
 }

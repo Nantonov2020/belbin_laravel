@@ -96,5 +96,9 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/hr/addWorkers/{idCompany}', [WorkersController::class, 'showFormForAddWorker'])->where('idCompany', '[0-9]+')->name('hr.addWorkerForm');
         Route::post('/hr/addWorkerAction/{idCompany}', [WorkersController::class, 'storeWorker'])->where('idCompany', '[0-9]+')->name('hr.storeWorker');
         Route::get('/hr/findUser/{idCompany}', [WorkersController::class, 'showFormForFindUser'])->where('idCompany', '[0-9]+')->name('hr.findUser');
+        Route::get('/hr/giveStatusHR/{idUser}/{idCompany}', [WorkersController::class, 'giveStatusHR'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.giveStatusHR');
+        Route::get('/hr/giveStatusWorker/{idUser}/{idCompany}', [WorkersController::class, 'showFormForGiveStatusWorker'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.giveStatusWorker');
+        Route::post('/hr/giveStatusWorkerAction/{idCompany}', [WorkersController::class, 'giveStatusWorker'])->where('idCompany', '[0-9]+')->name('hr.giveStatusWorkerAction');
+        Route::post('/hr/findUserAction/{idCompany}', [WorkersController::class, 'findUser'])->where('idCompany', '[0-9]+')->name('hr.findUserAction');
     });
 });
