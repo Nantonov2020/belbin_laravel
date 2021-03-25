@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 
 class UserService
 {
+
     public function addUser($data):bool
     {
         $correctData = $this->giveCorrectDataForAddUser($data);
@@ -169,6 +170,11 @@ class UserService
         $user = User::where('email',$email)->first();
 
         return array($user);
+    }
+
+    public function giveIdCompanyByCurrentlyHR()
+    {
+        return session('idCompanyForHR');
     }
 
 }

@@ -9,7 +9,6 @@ use App\Http\Requests\findDepartmentRequest;
 use App\Models\Company;
 use App\Models\Department;
 use App\Services\DepartmentService;
-use Illuminate\Support\Facades\DB;
 
 class DepartmentsController extends Controller
 {
@@ -22,6 +21,8 @@ class DepartmentsController extends Controller
 
     public function showDepartments(int $idCompany){
         $company = Company::find($idCompany);
+        session(['idCompanyForHR' => $idCompany]);
+
         $departments =  $this->departmentService->showAllDepartmentsOfCompanyWithPanination($idCompany);
 
         return view('hr.index',['company' => $company, 'departments' => $departments]);

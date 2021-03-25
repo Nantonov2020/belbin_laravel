@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\Admin\AdminWorkerController;
 use App\Http\Controllers\BelbinController;
 use App\Http\Controllers\HR\DepartmentsController;
+use App\Http\Controllers\HR\HRWorkersController;
 use App\Http\Controllers\HR\MenuController;
 use App\Http\Controllers\HR\WorkersController;
 use App\Http\Controllers\Resource\DepartmentController;
@@ -98,7 +99,9 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/hr/findUser/{idCompany}', [WorkersController::class, 'showFormForFindUser'])->where('idCompany', '[0-9]+')->name('hr.findUser');
         Route::get('/hr/giveStatusHR/{idUser}/{idCompany}', [WorkersController::class, 'giveStatusHR'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.giveStatusHR');
         Route::get('/hr/giveStatusWorker/{idUser}/{idCompany}', [WorkersController::class, 'showFormForGiveStatusWorker'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.giveStatusWorker');
+        Route::get('/hr/HRWorkers/{idCompany}', [HRWorkersController::class, 'showAllHRWorkersOfCompany'])->where('idCompany', '[0-9]+')->name('hr.hrWorkers');
         Route::post('/hr/giveStatusWorkerAction/{idCompany}', [WorkersController::class, 'giveStatusWorker'])->where('idCompany', '[0-9]+')->name('hr.giveStatusWorkerAction');
         Route::post('/hr/findUserAction/{idCompany}', [WorkersController::class, 'findUser'])->where('idCompany', '[0-9]+')->name('hr.findUserAction');
+
     });
 });

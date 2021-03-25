@@ -32,4 +32,15 @@ class HRService
 
         return $HRworkers;
     }
+
+    public function giveInformationAboutAllHRByIdCompany(int $idCompany)
+    {
+        $HRWorkers = DB::table('hrworkers')
+                    ->where('company_id', $idCompany)
+                    ->join('users', 'hrworkers.user_id','=','users.id')
+                    ->cursor();
+
+        return $HRWorkers;
+    }
+
 }

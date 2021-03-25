@@ -24,9 +24,11 @@
 
     <x-header></x-header>
 
+    @inject('user', 'App\Services\UserService')
+
     <div class="row">
         <div class="col-2 bg-white h-100">
-            <x-HRnav></x-HRnav>
+            <x-HRnav :message="$user->giveIdCompanyByCurrentlyHR()"></x-HRnav>
         </div>
         <div class="col-10 bg-light">
 
