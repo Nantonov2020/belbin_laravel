@@ -2,21 +2,83 @@
 
 @section('content')
 
-    <h2>Результаты по тестам Белбина подразделения:<br> {{ $department->name }}</h2>
+    <h2>Результаты по тестам Белбина подразделения:<br> <b>{{ $department->name }}</b></h2>
 
-    <table>
+    <table class="table table-striped">
         <tr>
             <th>№ п/п</th>
             <th>Сотрудник</th>
-            <th>РП</th>
-            <th>РК</th>
-            <th>МТ</th>
-            <th>ГИ</th>
-            <th>СН</th>
-            <th>АН</th>
-            <th>ВД</th>
-            <th>КН</th>
+            <th scope="col">
+                <span title="Рабочая пчёлка (Реализатор)">
+                    РП
+                </span>
+            </th>
+            <th scope="col">
+                <span title="Руководитель (Координатор)">
+                    РК
+                </span>
+            </th>
+            <th scope="col">
+                <span title="Мотиватор (Творец)">
+                    МТ
+                </span>
+            </th>
+            <th scope="col">
+                <span title="Генератор идей">
+                    ГИ
+                </span>
+            </th>
+            <th scope="col">
+                <span title="Снабженец (Исследователь)">
+                    СН
+                </span>
+            </th>
+            <th scope="col">
+                <span title="Эксперт">
+                    АН
+                </span>
+            </th>
+            <th scope="col">
+                <span title="Вдохновитель (Дипломат)">
+                    ВД
+                </span>
+            </th>
+            <th scope="col">
+                <span title="Контролёр (Исполнитель)">
+                    КН
+                </span>
+            </th>
         </tr>
+
+        @forelse($questionaries as $item)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $item->secondName }}
+                    @isset($item->firstName)
+                        &nbsp;{{ $item->firstName }}
+                    @endisset
+                    @isset($item->middleName)
+                        &nbsp;{{ $item->middleName }}
+                    @endisset
+
+                @if ($item->is_head == true)
+                    <br>(Руководитель)
+                @endif
+                </td>
+
+                @for ($i = 0; $i < 8; $i++)
+                    <td>
+                        {{ $item->resultForTable[$i] }}
+                    </td>
+                @endfor
+            </tr>
+        @empty
+            <tr>
+                <td colspan="10">
+                    В данном подразделении нет сотрудников.
+                </td>
+            </tr>
+        @endforelse
 
     </table>
 
