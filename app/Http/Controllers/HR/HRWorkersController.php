@@ -18,6 +18,18 @@ class HRWorkersController extends Controller
     {
         $HRWorkers = $this->HRService->giveInformationAboutAllHRByIdCompany($idCompany);
 
-        return view('hr.HRWorkers',['HRWorkers' => $HRWorkers]);
+        return view('hr.HRWorkers',['HRWorkers' => $HRWorkers, 'idCompany' => $idCompany]);
     }
+
+    public function deleteStatusHR(int $idUser, int $idCompany)
+    {
+        $user = \Auth::user();
+        if ($user->id == $idUser){
+            return back()->with('success', 'Нельзя снимать статус HR у самого себя.');
+        }
+        $this->HRService->deleteStatusHRworker($idUser, $idCompany);
+
+        return back()->with('success', 'У пользователя снят статус HR');
+    }
+
 }

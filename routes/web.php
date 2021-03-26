@@ -1,17 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminCompanyController;
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminDepartmentsController;
 use App\Http\Controllers\Admin\AdminHRworkerController;
 use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\Admin\AdminWorkerController;
-use App\Http\Controllers\BelbinController;
+use App\Http\Controllers\HR\BelbinController;
 use App\Http\Controllers\HR\DepartmentsController;
 use App\Http\Controllers\HR\HRWorkersController;
-use App\Http\Controllers\HR\MenuController;
 use App\Http\Controllers\HR\WorkersController;
-use App\Http\Controllers\Resource\DepartmentController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,7 +79,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::post('/home/answer', [BelbinController::class, 'answer'])->name('user.answer');
 
     Route::group(['middleware' => 'HR'],function() {
-        Route::get('/hr/company/{idCompany}', [DepartmentsController::class, 'showDepartments'])->where('idCompany', '[0-9]+')->name('hr.index');
+        Route::get('/hr/company/{idCompany}', [DepartmentsController::class, 'showDepartmentsAndInstallSessionValueWithIdCompany'])->where('idCompany', '[0-9]+')->name('hr.index');
         Route::get('/hr/department/{idDepartment}', [DepartmentsController::class, 'showOneDepartment'])->where('idDepartment', '[0-9]+')->name('hr.department');
         Route::get('/hr/findDepartment/{idCompany}', [DepartmentsController::class, 'findDepartment'])->where('idDepartment', '[0-9]+')->name('hr.findDepartment');
         Route::get('/hr/workers/{idCompany}', [WorkersController::class, 'showAllWorkers'])->where('idCompany', '[0-9]+')->name('hr.workers');
@@ -98,10 +95,11 @@ Route::group(['middleware' => 'auth'],function() {
         Route::post('/hr/addWorkerAction/{idCompany}', [WorkersController::class, 'storeWorker'])->where('idCompany', '[0-9]+')->name('hr.storeWorker');
         Route::get('/hr/findUser/{idCompany}', [WorkersController::class, 'showFormForFindUser'])->where('idCompany', '[0-9]+')->name('hr.findUser');
         Route::get('/hr/giveStatusHR/{idUser}/{idCompany}', [WorkersController::class, 'giveStatusHR'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.giveStatusHR');
+        Route::get('/hr/deleteStatusHR/{idUser}/{idCompany}', [HRWorkersController::class, 'deleteStatusHR'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.deleteStatusHR');
         Route::get('/hr/giveStatusWorker/{idUser}/{idCompany}', [WorkersController::class, 'showFormForGiveStatusWorker'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.giveStatusWorker');
         Route::get('/hr/HRWorkers/{idCompany}', [HRWorkersController::class, 'showAllHRWorkersOfCompany'])->where('idCompany', '[0-9]+')->name('hr.hrWorkers');
+        Route::get('/hr/showResultsBelbin/{idDepartment}', [BelbinController::class, 'showResultsBelbinTestForDepartment'])->where('idDepartment', '[0-9]+')->name('hr.showResultsBelbin');
         Route::post('/hr/giveStatusWorkerAction/{idCompany}', [WorkersController::class, 'giveStatusWorker'])->where('idCompany', '[0-9]+')->name('hr.giveStatusWorkerAction');
         Route::post('/hr/findUserAction/{idCompany}', [WorkersController::class, 'findUser'])->where('idCompany', '[0-9]+')->name('hr.findUserAction');
-
     });
 });

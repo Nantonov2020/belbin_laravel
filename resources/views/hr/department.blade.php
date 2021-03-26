@@ -81,11 +81,10 @@
                                     Удалить
                                 </a>
                             @endif
-
                         </p>
-
                     </div>
                 </div>
+                <a type="button" class="btn btn-primary btn-lg btn-block" href="{{route('hr.showResultsBelbin', $department->department_id)}}">Показать таблицу результатов по тесту Белбина</a>
             </div>
         </div>
     </div>

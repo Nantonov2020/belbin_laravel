@@ -16,7 +16,6 @@ class HR
 
     public function handle(Request $request, Closure $next)
     {
-
         $this->idCompany = $request->idCompany;
         $this->idDepartment = $request->idDepartment;
         $this->idWorker = $request->idWorker;

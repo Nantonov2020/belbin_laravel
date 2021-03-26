@@ -19,9 +19,9 @@ class DepartmentsController extends Controller
         $this->departmentService = $departmentService;
     }
 
-    public function showDepartments(int $idCompany){
-        $company = Company::find($idCompany);
+    public function showDepartmentsAndInstallSessionValueWithIdCompany(int $idCompany){
         session(['idCompanyForHR' => $idCompany]);
+        $company = Company::find($idCompany);
 
         $departments =  $this->departmentService->showAllDepartmentsOfCompanyWithPanination($idCompany);
 
