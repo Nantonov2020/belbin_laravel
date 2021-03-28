@@ -9,6 +9,7 @@ use App\Http\Controllers\HR\BelbinController;
 use App\Http\Controllers\HR\DepartmentsController;
 use App\Http\Controllers\HR\HRWorkersController;
 use App\Http\Controllers\HR\WorkersController;
+use App\Http\Controllers\User\UserBelbinController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -74,9 +75,9 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/deleteStatusWorker/{id}/{id_department}', [AdminWorkerController::class, 'deleteStatusWorker'])->where('id', '[0-9]+')->where('id_department', '[0-9]+')->name('deleteStatusWorker');
     });
     Route::get('/home/user', [UserController::class, 'index'])->name('user.index');
-    Route::get('/home/start', [BelbinController::class, 'start'])->name('user.start');
-    Route::get('/home/questionnaire', [BelbinController::class, 'questionnaire'])->name('user.questionnaire');
-    Route::post('/home/answer', [BelbinController::class, 'answer'])->name('user.answer');
+    Route::get('/home/start', [UserBelbinController::class, 'start'])->name('user.start');
+    Route::get('/home/questionnaire', [UserBelbinController::class, 'questionnaire'])->name('user.questionnaire');
+    Route::post('/home/answer', [UserBelbinController::class, 'answer'])->name('user.answer');
 
     Route::group(['middleware' => 'HR'],function() {
         Route::get('/hr/company/{idCompany}', [DepartmentsController::class, 'showDepartmentsAndInstallSessionValueWithIdCompany'])->where('idCompany', '[0-9]+')->name('hr.index');

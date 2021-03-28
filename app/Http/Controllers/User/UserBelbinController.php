@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\AnswerRequest;
 use App\Services\QuestionnairesService;
 
-
-class BelbinController extends Controller
+class UserBelbinController extends Controller
 {
     public function __construct(QuestionnairesService $questionnairesService)
     {

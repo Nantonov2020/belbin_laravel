@@ -15,8 +15,8 @@ class BelbinController extends Controller
     }
     public function showResultsBelbinTestForDepartment(int $idDepartment)
     {
-        list($department, $questionaries) = $this->belbinService->giveInformationAboutQuestionnariesOfUsersOfDepartmentWithInfoAboutDepartment($idDepartment);
+        list($department, $questionaries, $averageResults) = $this->belbinService->giveInformationAboutQuestionnariesOfUsersOfDepartmentWithInfoAboutDepartment($idDepartment);
 
-        return view('hr.resultsBelbin',['department' => $department, 'questionaries' => $questionaries]);
+        return view('hr.resultsBelbin',['department' => $department, 'questionaries' => $questionaries, 'averageResults' => $averageResults]);
     }
 }
