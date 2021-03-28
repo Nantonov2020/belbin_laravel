@@ -7,52 +7,52 @@
     @inject('data', 'App\Services\BelbinService')
     <input type="hidden" id="infoForJS" value="{{ $data->getJSONFromQuestionnairesForJS($questionaries) }}">
 
-    <table class="table table-striped">
+    <table class="table table-striped table-bordered">
         <tr>
-            <td>№ п/п</td>
-            <td>Сотрудник</td>
+            <td><b>№ п/п</b></td>
+            <td><b>Сотрудник</b></td>
             <td scope="col">
                 <span title="Рабочая пчёлка (Реализатор)">
-                    РП
+                    <b>РП</b>
                 </span>
             </td>
             <td scope="col">
                 <span title="Руководитель (Координатор)">
-                    РК
+                    <b>РК</b>
                 </span>
             </td>
             <td scope="col">
                 <span title="Мотиватор (Творец)">
-                    МТ
+                    <b>МТ</b>
                 </span>
             </td>
             <td scope="col">
                 <span title="Генератор идей">
-                    ГИ
+                    <b>ГИ</b>
                 </span>
             </td>
             <td scope="col">
                 <span title="Снабженец (Исследователь)">
-                    СН
+                    <b>СН</b>
                 </span>
             </td>
             <td scope="col">
                 <span title="Эксперт">
-                    АН
+                    <b>АН</b>
                 </span>
             </td>
             <td scope="col">
                 <span title="Вдохновитель (Дипломат)">
-                    ВД
+                    <b>ВД</b>
                 </span>
             </td>
             <td scope="col">
                 <span title="Контролёр (Исполнитель)">
-                    КН
+                    <b>КН</b>
                 </span>
             </td>
             <td rowspan="{{ (count($questionaries))+2 }}">
-                <div style="width: 300px; height: 300px;">
+                <div style="width: 500px; height: 500px;">
                     <canvas id="myChart" width="100" height="100"></canvas>
                 </div>
             </td>
@@ -114,8 +114,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script>
 
+        let colorsForDiagramm = ['red', 'green', 'blue', 'OrangeRed', 'Fuchsia',
+                                'MediumSpringGreen', 'DarkTurquoise', 'Olive',
+                                'SaddleBrown', 'DarkSlateBlue', 'Indigo', 'DarkOrange',
+                                'Crimson', 'DarkOliveGreen', 'DodgerBlue', 'Maroon',
+                                'DarkSlateGray', 'DarkMagenta', 'FireBrick', 'ForestGreen'];
         let result = document.getElementById('infoForJS').value;
-        console.log(result);
+        let resultObj = JSON.parse(result);
+        let dataForDiagramm = [];
+        resultObj.forEach(function(item, key){
+
+            dataForDiagramm.push(
+                {backgroundColor: colorsForDiagramm[key],
+                borderColor: colorsForDiagramm[key],
+                data: item.result,
+                label: item.name,
+                fill:false}
+            );
+        });
+        console.log(dataForDiagramm);
 
         let tit1 = ['РП', 'РК', 'МТ', 'ГИ', 'СН', 'АН', 'ВД', 'КН'];
 
@@ -127,15 +144,8 @@
             // The data for our dataset
             data: {
                 labels: tit1,
-                datasets:
-                    [{
-                    backgroundColor: 'red',
-                    borderColor: 'red',
-                    data:[2,3,4,5,6,7,8,25],
-                    label:'FIO1',
-                    fill:false
-                    }
-                    ]
+                datasets:dataForDiagramm
+
             },
 
             // Configuration options go here

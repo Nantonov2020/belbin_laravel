@@ -106,8 +106,22 @@ class BelbinService
 
     public function getJSONFromQuestionnairesForJS($questionaries)
     {
+        $result = [];
 
-        return 5444;
+        foreach($questionaries as $item)
+        {
+            $localArray = [];
+            $name = $item->secondName;
+            foreach ($item->resultForTable as $objCell)
+            {
+                $localArray[] = $objCell->getValue();
+            }
+            //dd($localArray);
+            $result[] = ['name' => $name, 'result' => $localArray];
+        }
+
+        $resultStr = json_encode($result);
+        return $resultStr;
     }
 
 }
