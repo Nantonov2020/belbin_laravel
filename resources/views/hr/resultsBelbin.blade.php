@@ -8,7 +8,7 @@
     <input type="hidden" id="infoForJS" value="{{ $data->getJSONFromQuestionnairesForJS($questionaries) }}">
 
     <table class="table table-striped table-bordered">
-        <tr>
+        <tr align="center">
             <td><b>№ п/п</b></td>
             <td><b>Сотрудник</b></td>
             <td scope="col">
@@ -60,7 +60,7 @@
 
         @forelse($questionaries as $item)
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td align="center">{{ $loop->iteration }}</td>
                 <td>
                     <a href="{{ route('hr.worker', $item->idUser) }}">
 
@@ -79,13 +79,13 @@
 
                 @for ($i = 0; $i < 8; $i++)
                     @if ($item->resultForTable[$i]->getColorCell() == 0)
-                        <td class="table-danger">
+                        <td class="table-danger" align="center">
                     @elseif ($item->resultForTable[$i]->getColorCell() == 2)
-                        <td class="table-primary">
+                        <td class="table-primary" align="center">
                     @elseif ($item->resultForTable[$i]->getColorCell() == 3)
-                        <td class="table-success">
+                        <td class="table-success" align="center">
                     @else
-                        <td>
+                        <td align="center">
                     @endif
                         {{ $item->resultForTable[$i]->getValue() }}
                     </td>
@@ -101,7 +101,7 @@
         <tr>
             <td colspan="2"><b>Среднее значение по подразделению:</b></td>
             @foreach ($averageResults as $item)
-                <td>
+                <td align="center">
                     <b>{{ $item }}</b>
                 </td>
             @endforeach
@@ -114,7 +114,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script>
 
-        let colorsForDiagramm = ['red', 'green', 'blue', 'OrangeRed', 'Fuchsia',
+        let colorsForDiagramm = ['red', 'green', 'blue', 'Gold', 'Fuchsia',
                                 'MediumSpringGreen', 'DarkTurquoise', 'Olive',
                                 'SaddleBrown', 'DarkSlateBlue', 'Indigo', 'DarkOrange',
                                 'Crimson', 'DarkOliveGreen', 'DodgerBlue', 'Maroon',

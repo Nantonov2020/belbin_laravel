@@ -78,12 +78,14 @@ class AdminDepartmentsController extends Controller
         return view('admin.renameDepartment',['department'=>Department::find($id)]);
     }
 
-    public function showDepartment(int $id)
+    public function showDepartment(int $idDepartment)
     {
-        $idDepartment = (int)$id;
 
         list ($department, $workers) = $this->departmentService->giveInfoAboutDepartment($idDepartment);
-
+        if (count($department) == 0)
+        {
+            return abort(404);
+        }
         return view('admin.department', ['department'=>$department[0],'workers'=>$workers]);
     }
 
