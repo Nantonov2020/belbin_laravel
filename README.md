@@ -18,10 +18,21 @@
 Зона работы администраторов сайта позволяет получить доступ ко всем данным. Администраторы могут добавлять, удалять, переименовывать новые организации.
 Также администраторы могут добавлять новых пользователей, выдавать им статусы администраторов, сотрудников отделов кадров и пр.
 
+#### Внешний вид страницы с пользователями для администратора
+![Вид администратора](https://downloader.disk.yandex.ru/preview/585e73728e90c423dad4a050d82a4f3b31690e3ca4c5c85a2fdf3867462952e2/606239ee/1IUKLL8Fjyfd5-jZTfijAmcmWZSJxIw5aT4NjrFIKsM0WMWBDuOvvoVogB0-ACA0lHs3AD-PQvTc77wtr0Hkjw%3D%3D?uid=0&filename=1.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048 "Вид1")
+
+#### Внешний вид страницы с подразделениями для администратора
+![Вид администратора](https://downloader.disk.yandex.ru/preview/627b2da3c8f8f5f5cdd00c01acd8dcf68b54f296fdad2818b7d81f8976f7bfaf/60623ac8/RrTbtn9hmXrRo3dc6nPZHipeiUceZW-60BM1DDds01mzJnswrYivQJ_ZHrG2biwaDdqI8CgHuvhCY8s2Y2gqxA%3D%3D?uid=0&filename=2.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048 "Вид2")
+
+
 ## Сотрудники отделов кадров (HR)
 
 Один пользователь может являться сотрудником отдела кадров нескольких организаций. В каждой орагнизации, где он имеет статус HR, он может
  создавать новые подразделения, добавлять новых сотрудников, просматривать итоговые отчеты по итогам прохождения сотрудниками тестов.
+
+#### Внешний вид анализом анкет сотрудников подразделения
+![Вид HR](https://downloader.disk.yandex.ru/preview/b4faa2aa6b80034d28cdb3ede2af04018230018dc8b43f26db35e1e4f6f8e07f/60623b14/YNLGbrHBgvHAmx0cbJz6MoWGqLBAm_bTKe7cfbZaGkht2FcfmtYIjA-AkeEnlQRIlvYa2c3Z5oNrkn2UFo9qOg%3D%3D?uid=0&filename=3.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048 "Вид2")
+
 
 ## Сотрудники предприятий
 
@@ -32,3 +43,6 @@
 сотрудникам отдела кадров.
 
 После прохождения тестирования следующая возможность пройти тест предоставляется через 30 дней. Результаты всех тестов сохраняются в системе.
+
+#### Внешний процесса прохождения теста
+![Вид HR](https://downloader.disk.yandex.ru/preview/70196cf3bf6dae4ffc2a7cbdd99c498a1f63b4f998af3d0a225eeae45e7b6194/60623b5e/-DI2sEU_SIXSa3AojRak2_FSabnlKoPTfbJW7jPLZrCYYcD2_SA2BLFieYLKEbKjonz2FATt6FQAZ1kkHZEkqg%3D%3D?uid=0&filename=4.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2&size=2048x2048 "Вид2")
