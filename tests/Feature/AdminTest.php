@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Company;
+use App\Models\Department;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -16,7 +18,7 @@ class AdminTest extends TestCase
                         ->withSession(['banned' => false])
                         ->get('/home');
 
-        $response->assertStatus(200);
+        $response->assertSee('Компании');
     }
 
     private function initUser()
@@ -26,6 +28,17 @@ class AdminTest extends TestCase
         $user->secondName = 'SecondName';
 
         return $user;
+    }
+
+    public function testLoginNoAdminFailed()
+    {
+        $user = $this->getUserNoAdmin();
+
+        $response = $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->get('/home');
+
+        $response->assertDontSee('Компании');
     }
 
     public function testAdminCompanies()
@@ -127,21 +140,29 @@ class AdminTest extends TestCase
     public function testAdminOneCompany()
     {
         $user = $this->initUser();
+        $idRandomCompany = $this->giveNumberRandomAvailableCompany();
 
         $response = $this->actingAs($user)
             ->withSession(['banned' => false])
-            ->get('/company/2');
+            ->get("/company/$idRandomCompany");
 
         $response->assertStatus(200);
+    }
+
+    private function giveNumberRandomAvailableCompany():int
+    {
+        $company = Company::inRandomOrder()->first();
+        return $company->id;
     }
 
     public function testAdminOneCompanyNoAdminFailed()
     {
         $user = $this->getUserNoAdmin();
+        $idRandomCompany = $this->giveNumberRandomAvailableCompany();
 
         $response = $this->actingAs($user)
             ->withSession(['banned' => false])
-            ->get('/company/2');
+            ->get("/company/$idRandomCompany");
 
         $response->assertStatus(404);
     }
@@ -160,21 +181,30 @@ class AdminTest extends TestCase
     public function testAdminOneDepartment()
     {
         $user = $this->initUser();
+        $idRandomDepartment = $this->giveRandomNumberAvailableDepartment();
 
         $response = $this->actingAs($user)
             ->withSession(['banned' => false])
-            ->get('/department/3');
+            ->get("/department/$idRandomDepartment");
 
         $response->assertStatus(200);
+    }
+
+    private function giveRandomNumberAvailableDepartment():int
+    {
+        $department = Department::inRandomOrder()->first();
+
+        return $department->id;
     }
 
     public function testAdminOneDepartmentNoAdminFailed()
     {
         $user = $this->getUserNoAdmin();
+        $idRandomDepartment = $this->giveRandomNumberAvailableDepartment();
 
         $response = $this->actingAs($user)
             ->withSession(['banned' => false])
-            ->get('/department/3');
+            ->get("/department/$idRandomDepartment");
 
         $response->assertStatus(404);
     }
@@ -193,21 +223,30 @@ class AdminTest extends TestCase
     public function testAdminOneUser()
     {
         $user = $this->initUser();
+        $idRandomUserFromDB = $this->giveNumberRandomAvailableUserFromDB();
 
         $response = $this->actingAs($user)
             ->withSession(['banned' => false])
-            ->get('/user/1552');
+            ->get("/user/$idRandomUserFromDB");
 
         $response->assertStatus(200);
+    }
+
+    private function giveNumberRandomAvailableUserFromDB():int
+    {
+        $userFromDB = User::inRandomOrder()->first();
+
+        return $userFromDB->id;
     }
 
     public function testAdminOneUserNoAdminFailed()
     {
         $user = $this->getUserNoAdmin();
+        $idRandomUserFromDB = $this->giveNumberRandomAvailableUserFromDB();
 
         $response = $this->actingAs($user)
             ->withSession(['banned' => false])
-            ->get('/user/1552');
+            ->get("/user/$idRandomUserFromDB");
 
         $response->assertStatus(404);
     }
@@ -222,5 +261,4 @@ class AdminTest extends TestCase
 
         $response->assertStatus(404);
     }
-
 }
