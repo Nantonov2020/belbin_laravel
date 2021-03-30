@@ -19,4 +19,12 @@ class BelbinController extends Controller
 
         return view('hr.resultsBelbin',['department' => $department, 'questionaries' => $questionaries, 'averageResults' => $averageResults]);
     }
+
+    public function showResultsBelbinTestForUser(int $idWorker)
+    {
+        list($user, $questionaries) = $this->belbinService->makeDataForShowResultsBelbinForUser($idWorker);
+
+        return view('hr.showResultsBelbinForUser', ['user' => $user, 'questionaries' => $questionaries]);
+    }
+
 }

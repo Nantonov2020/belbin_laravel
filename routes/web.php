@@ -100,7 +100,9 @@ Route::group(['middleware' => 'auth'],function() {
         Route::get('/hr/giveStatusWorker/{idUser}/{idCompany}', [WorkersController::class, 'showFormForGiveStatusWorker'])->where('idCompany', '[0-9]+')->where('idUser', '[0-9]+')->name('hr.giveStatusWorker');
         Route::get('/hr/HRWorkers/{idCompany}', [HRWorkersController::class, 'showAllHRWorkersOfCompany'])->where('idCompany', '[0-9]+')->name('hr.hrWorkers');
         Route::get('/hr/showResultsBelbin/{idDepartment}', [BelbinController::class, 'showResultsBelbinTestForDepartment'])->where('idDepartment', '[0-9]+')->name('hr.showResultsBelbin');
+        Route::get('/hr/showResultsBelbinForUser/{idWorker}', [BelbinController::class, 'showResultsBelbinTestForUser'])->where('idWorker', '[0-9]+')->name('hr.showResultsBelbinForUser');
         Route::post('/hr/giveStatusWorkerAction/{idCompany}', [WorkersController::class, 'giveStatusWorker'])->where('idCompany', '[0-9]+')->name('hr.giveStatusWorkerAction');
         Route::post('/hr/findUserAction/{idCompany}', [WorkersController::class, 'findUser'])->where('idCompany', '[0-9]+')->name('hr.findUserAction');
+
     });
 });

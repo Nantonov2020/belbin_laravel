@@ -133,6 +133,9 @@
 
                     </div>
                 </div>
+
+                <a type="button" class="btn btn-primary btn-lg btn-block" href="{{ route('hr.showResultsBelbinForUser', $user->id) }}">Показать результаты тестов Белина</a>
+
             </div>
         </div>
     </div>

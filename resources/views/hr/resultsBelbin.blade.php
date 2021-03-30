@@ -75,6 +75,9 @@
                 @if ($item->is_head == true)
                     <br>(Руководитель)
                 @endif
+                @if ($item->is_candidate == true)
+                    <br>(Кандидат)
+                @endif
                 </td>
 
                 @for ($i = 0; $i < 8; $i++)

@@ -6,6 +6,8 @@ namespace App\Services;
 
 use App\Models\CellForTableResultDepartmentBelbinTest;
 use App\Models\Department;
+use App\Models\Questionnaire;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class BelbinService
@@ -21,6 +23,7 @@ class BelbinService
                         ->join('users','questionnaires.user_id','=','users.id')
                         ->join('workers', 'users.id', '=','workers.user_id')
                         ->orderBy('workers.is_head','desc')
+                        ->orderBy('workers.is_candidate','asc')
                         ->whereIn('questionnaires.id',$numbersQuestionariesWithoutRepeat)
                         ->where('workers.department_id', $idDepartment)
                         ->where('questionnaires.status', true)
@@ -116,7 +119,7 @@ class BelbinService
             {
                 $localArray[] = $objCell->getValue();
             }
-            //dd($localArray);
+
             $result[] = ['name' => $name, 'result' => $localArray];
         }
 
@@ -124,4 +127,14 @@ class BelbinService
         return $resultStr;
     }
 
+    public function makeDataForShowResultsBelbinForUser(int $idWorker):array
+    {
+        $user = User::find($idWorker);
+        $questionaries = Questionnaire::where('user_id', $idWorker)->get();
+        foreach ($questionaries as $item){
+            $resultForTable = $this->convertAnswersToResult(json_decode($item->results, true));
+            $item->resultForTable = $resultForTable;
+        }
+        return array($user, $questionaries);
+    }
 }
