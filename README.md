@@ -46,3 +46,7 @@
 
 #### Внешний процесса прохождения теста
 ![Вид HR](https://nantonov2020.github.io/img/belbin/4.png "Вид2")
+
+## О тесте Белбина
+
+Подробно о тесте Белбина можно почитать на [Википедии.](https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C_%D0%BA%D0%BE%D0%BC%D0%B0%D0%BD%D0%B4%D0%BD%D1%8B%D1%85_%D1%80%D0%BE%D0%BB%D0%B5%D0%B9_%D0%91%D0%B5%D0%BB%D0%B1%D0%B8%D0%BD%D0%B0)
