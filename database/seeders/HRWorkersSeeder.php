@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class WorkersSeeder extends Seeder
+class HRWorkersSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,21 +14,21 @@ class WorkersSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('workers')->insert($this->getData());
+        DB::table('hrworkers')->insert($this->getData());
     }
 
     private function getData():array
     {
-        $departments = DB::table('departments')->select('id')->get();
         $users = DB::table('users')->select('id')->get();
+        $companies = DB::table('companies')->select('id')->get();
 
         $data = [];
-        for ($i = 0; $i < 5000; $i++){
+        for ($i = 0; $i < 200; $i++){
             $user_id =  ($users[Rand(0,count($users)-1)])->id;
-            $department_id =  ($departments[Rand(0,count($departments)-1)])->id;
+            $company_id =  ($companies[Rand(0,count($companies)-1)])->id;
             $data[] =[
                 'user_id' => $user_id,
-                'department_id' => $department_id
+                'company_id' => $company_id
             ];
         }
         return $data;

@@ -18,7 +18,9 @@ class DatabaseSeeder extends Seeder
             DepartmentsSeeder::class,
             UsersSeeder::class,
             WorkersSeeder::class,
-            HRWorkersSeeder::class
+            HRWorkersSeeder::class,
+            QuestionnairesSeeder::class,
+            TestUnitsSeeder::class
         ]);
     }
 }

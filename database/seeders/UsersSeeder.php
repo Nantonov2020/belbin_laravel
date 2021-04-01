@@ -24,13 +24,13 @@ class UsersSeeder extends Seeder
         $faker = Factory::create('ru_RU');
 
         $data = [];
-        for ($i = 0; $i < 5000; $i++){
+        for ($i = 0; $i < 10000; $i++){
             $firstName = $faker->firstNameMale;
             $secondName = $faker->lastName;
             $middleName = $faker->lastName;
             $password = $faker->sentence(mt_rand(1,2));
             $name = Str::slug($firstName);
-            $email = ($faker->word).($faker->numberBetween(5,1000000)).'@mail.ru';
+            $email = ($faker->word).($faker->numberBetween(5,1000000)).($faker->numberBetween(5,1000000)).'@mail.ru';
             $data[] =[
                 'firstName' => $firstName,
                 'secondName' => $secondName,
