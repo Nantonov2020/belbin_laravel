@@ -26,6 +26,7 @@ class QuestionnairesSeeder extends Seeder
             $user_id =  ($users[Rand(0,count($users)-1)])->id;
             $status =  1;
             $results = $this->giveResultFormatJSON();
+
             $data[] =[
                 'user_id' => $user_id,
                 'status' => $status,
@@ -51,8 +52,11 @@ class QuestionnairesSeeder extends Seeder
     {
         $result = [0,0,0,0,0,0,0,0];
 
-        for ($i = 0; $i < 10; $i++){
+        for ($i = 0; $i < 5; $i++){
             $key = rand(0,7);
+            if ($i == 0) {
+                $result[$key] += 5;
+            }
             $result[$key]++;
         }
 
