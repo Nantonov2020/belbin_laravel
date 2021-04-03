@@ -79,7 +79,7 @@ Route::group(['middleware' => 'auth'],function() {
     Route::get('/home/questionnaire', [UserBelbinController::class, 'questionnaire'])->name('user.questionnaire');
     Route::post('/home/answer', [UserBelbinController::class, 'answer'])->name('user.answer');
 
-    Route::group(['middleware' => 'HR'],function() {
+    Route::middleware(['HR','HRmakeSession'])->group(function() {
         Route::get('/hr/company/{idCompany}', [DepartmentsController::class, 'showDepartmentsAndInstallSessionValueWithIdCompany'])->where('idCompany', '[0-9]+')->name('hr.index');
         Route::get('/hr/department/{idDepartment}', [DepartmentsController::class, 'showOneDepartment'])->where('idDepartment', '[0-9]+')->name('hr.department');
         Route::get('/hr/findDepartment/{idCompany}', [DepartmentsController::class, 'findDepartment'])->where('idDepartment', '[0-9]+')->name('hr.findDepartment');
@@ -105,4 +105,5 @@ Route::group(['middleware' => 'auth'],function() {
         Route::post('/hr/findUserAction/{idCompany}', [WorkersController::class, 'findUser'])->where('idCompany', '[0-9]+')->name('hr.findUserAction');
 
     });
+
 });
