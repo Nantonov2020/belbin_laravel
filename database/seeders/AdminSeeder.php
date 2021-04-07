@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
@@ -23,7 +24,7 @@ class AdminSeeder extends Seeder
         $data[] = [
             'name' => 'Admin',
             'email' => 'nantonov@mail.ru',
-            'password' => '111',
+            'password' => Hash::make('temp12345'),
             'is_admin' => true,
             'created_at' => now(),
             'updated_at' => now()
